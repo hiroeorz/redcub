@@ -1,0 +1,45 @@
+= README for PingRush
+
+== About pingrush
+
+PingRush is network watcher. This program is checking daemons on network.
+
+=== pingrush watcher
+
+This is simple watcher, that watches daemons on networks.
+This script is one liner. You also exec this scrip from cron.
+
+=== pingrush_drb_service
+
+This is drb service for pingrush-web-service.
+If you not need daemons informations from web site, you don't use this program.
+
+== Install
+
+$ ./bootstrap
+$ ./configure
+$ make
+# make install
+
+You can set prefix dir. Default prefix is /usr/local/pingrush
+$ ./configure --prefix=/home/hoge/pingrush
+
+== Exec script
+
+=== pingrush watcher
+
+$ ruby /usr/local/pingrush/lib/watcher.rb [--mail]
+
+option 
+  --mail: Script send mail anyway failed service exist or not exist.
+
+=== pingrush_drb_service
+$ /usr/local/pingrush/bin/pingrush_drb_service [--daemon]
+
+option
+  --daemon: Script exected back ground daemon.
+
+== Bug report
+
+If you find bugs in pingrush, send mail to 'hiroe.orz@gmail.com'
+Thank you.

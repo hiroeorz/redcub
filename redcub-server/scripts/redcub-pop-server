@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+require "redcub"
+
+optparser = GetoptLong.new
+optparser.set_options(['--pid-file', GetoptLong::REQUIRED_ARGUMENT],
+		      ['--daemon', GetoptLong::NO_ARGUMENT])
+
+popper = RedCub::PopServer.new
+
+optparser.each_option do |name, arg|
+  case name
+  when "--pid-file"
+    popper.pid_file = arg
+  when "--daemon"
+    popper.daemon = true
+  end
+end
+
+popper.start

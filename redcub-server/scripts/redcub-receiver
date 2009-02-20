@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+
+require "redcub"
+
+optparser = GetoptLong.new
+optparser.set_options(['--pid-file', GetoptLong::REQUIRED_ARGUMENT],
+		      ['--daemon', GetoptLong::NO_ARGUMENT])
+
+receiver = RedCub::Receiver.new
+
+optparser.each_option do |name, arg|
+  case name
+  when "--pid-file"
+    receiver.pid_file = arg
+  when "--daemon"
+    receiver.daemon = true
+  end
+end
+
+receiver.start
