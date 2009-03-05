@@ -5,12 +5,6 @@
 
 ###################################################################
 
-#create tablespace mailbox_ts add datafile 'mailbox.dat'
-#	use logfile group lg_1 engine ndb;
-#alter tablespace mailbox_ts add datafile 'mailbox_1.dat' engine ndb;
-#alter tablespace mailbox_ts add datafile 'mailbox_2.dat' engine ndb;
-#alter tablespace mailbox_ts add datafile 'mailbox_3.dat' engine ndb;
-
 create table mails (
 	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	message_id VARCHAR(128) NOT NULL UNIQUE,
@@ -20,44 +14,43 @@ create table mails (
 	receive_date DateTime,
 	data_part VARCHAR(128),
 	data_size INTEGER)
-	tablespace mailbox_ts storage disk ENGINE=NDB;
+	ENGINE=NDBCLUSTER;
 
 ###################################################################
 
-create tablespace hostnames_ts add datafile 'hostnames.dat'
+create tablespace maildatas_ts add datafile 'maildata.dat'
 	use logfile group lg_1 engine ndb;
-alter tablespace hostnames_ts add datafile 'hostnames_1.dat' engine ndb;
-alter tablespace hostnames_ts add datafile 'hostnames_2.dat' engine ndb;
-alter tablespace hostnames_ts add datafile 'hostnames_3.dat' engine ndb;
+alter tablespace hostnames_ts add datafile 'maildata_1.dat' engine ndb;
+alter tablespace hostnames_ts add datafile 'maildata_2.dat' engine ndb;
+alter tablespace hostnames_ts add datafile 'maildata_3.dat' engine ndb;
+
+create table maildatas(
+       id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+       mail_id INTEGER NOT NULL,
+       message_id VARCHAR(128) NOT NULL UNIQUE,
+       data BLOB)
+       tablespace maildatas_ts storage disk ENGINE=NDB;
+
+###################################################################
 
 create table hosts (
 	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	name VARCHAR(128) UNIQUE)
-	tablespace mailbox_ts storage disk ENGINE=NDB;
+	ENGINE=NDBCLUSTER;
 
 ###################################################################
-
-create tablespace addresses_ts add datafile 'addresses.dat'
-	use logfile group lg_1 engine ndb;
-alter tablespace addresses_ts add datafile 'addresses_1.dat' engine ndb;
-alter tablespace addresses_ts add datafile 'addresses_2.dat' engine ndb;
-alter tablespace addresses_ts add datafile 'addresses_3.dat' engine ndb;
 
 create table addresses (
 	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	address VARCHAR(256) UNIQUE)
-	tablespace addresses_ts storage disk ENGINE=NDB;
+	ENGINE=NDBCLUSTER;
 
 ###################################################################
-
-create tablespace users_ts add datafile 'redcab_users.dat'
-	use logfile group lg_1 engine ndb;
-alter tablespace users_ts add datafile 'redcab_users_1.dat' engine ndb;
-alter tablespace users_ts add datafile 'redcab_users_2.dat' engine ndb;
-alter tablespace users_ts add datafile 'redcab_users_3.dat' engine ndb;
 
 create table users (
 	id INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	name VARCHAR(256) NOT NULL UNIQUE,
 	password VARCHAR(256) NOT NULL)
-	tablespace users_ts storage disk ENGINE=NDB;
+	ENGINE=NDBCLUSTER;
+
+###################################################################

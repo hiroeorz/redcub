@@ -8,7 +8,7 @@ end
 
 begin
   require "rubygems"
-rescue
+rescue LoadError
 end
 
 require "socket"
@@ -18,7 +18,6 @@ require "resolv"
 require "digest/md5"
 require "jcode"
 require "tmail"
-require "hbase"
 require "getoptlong"
 
 require "smtpd"
@@ -31,7 +30,6 @@ require "redcub/redcub-smtpd"
 require "redcub/redcub-popd"
 require "redcub/database"
 require "redcub/queue-db"
-require "redcub/hbase-table.rb"
 require "redcub/daemon"
 require "redcub/receiver"
 require "redcub/sender"

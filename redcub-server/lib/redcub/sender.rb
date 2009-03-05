@@ -8,12 +8,6 @@ module RedCub
       @max_send_count = @config["sender"]["max_send_count"].to_i
       @myhostname = @config["myhostname"]
 
-      @local_queue = @config["hbase_table"]["local_queue"]
-      @send_queue = @config["hbase_table"]["send_queue"]
-      @mailbox = @config["hbase_table"]["mailbox"]
-      @databox = @config["hbase_table"]["databox"]
-      HBaseTable.url = @config["hbase_table"]["url"]
-
       Syslog.info("sender is ready.")
     end
 

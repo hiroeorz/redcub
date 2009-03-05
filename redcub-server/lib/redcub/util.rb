@@ -17,9 +17,6 @@ module RedCub
     def get_dispotion_filenames(tmail)
       filenames = []
 
-      File.open("/tmp/mail_part.txt", "w") do |f|
-      end
-
       tmail.parts.each do |part|
         if part['content-disposition']
           filenames.push(part['content-disposition']['filename'])
@@ -45,9 +42,13 @@ module RedCub
     end
 
     def get_message_id(data, hostname)
-      tmail = TMail::Mail.parse(data)
+      message_id = nil
 
-      message_id = tmail.msgid
+      begin
+        tmail = TMail::Mail.parse(data)
+        message_id = tmail.msgid
+      rescue TMail::SyntaxError
+      end
 
       if !message_id.nil? and !message_id.empty? and
           TMail::Mail.msgid?(message_id)

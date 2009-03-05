@@ -12,10 +12,6 @@ module RedCub
       @client_name = nil
       @remote_addr = nil
 
-      @local_queue = @config["hbase_table"]["local_queue"]
-      @send_queue = @config["hbase_table"]["send_queue"]
-      @mailbox = @config["hbase_table"]["mailbox"]
-      @databox = @config["hbase_table"]["databox"]
       @mynetworks = @config["mynetworks"]
 
       super(sock, domain)
@@ -45,6 +41,7 @@ module RedCub
 
     def rcpt_hook(rcpts)
       rcpts.split(/,/).each do |rcpt|
+        Syslog.debug("check rcpt=#{rcpt}")
         array = rcpt.split(/@/)
         
         if array.length != 2 or
@@ -79,7 +76,12 @@ module RedCub
 
         result = compare_network(my_address, ip_address, mask)
 
+
         return result if result
+      end
+
+      unless result
+        Syslog.notice("Warning: no mynetworks address connected(#{ip_address})")
       end
 
       return false

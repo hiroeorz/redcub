@@ -2,7 +2,7 @@ require "yaml"
 
 module RedCub
   class Config    
-    @@path = File.join("/etc", "redcab.conf")    
+    @@path = File.join("/etc", "redcub.conf")    
     
     def Config.path=(path)
       @@path = path

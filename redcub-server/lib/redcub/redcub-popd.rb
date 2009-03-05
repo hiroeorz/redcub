@@ -12,10 +12,6 @@ module RedCub
       @client_name = nil
       @remote_addr = nil
 
-      @local_queue = @config["hbase_table"]["local_queue"]
-      @send_queue = @config["hbase_table"]["send_queue"]
-      @mailbox = @config["hbase_table"]["mailbox"]
-      @databox = @config["hbase_table"]["databox"]
       @mynetworks = @config["mynetworks"]
 
       super(sock, domain)

@@ -22,10 +22,10 @@ module RedCub
       loop do
         Thread.start(@sock.accept) do |s|
           client_name = s.peeraddr[2]
-          ipaddr = s.peeraddr[3]
+          ipaddr = s.peeraddr[3].gsub(/::ffff:/, "")
           
           begin  
-            Syslog.info("connct from #{client_name}(#{ipaddr})")
+            Syslog.info("connect from #{client_name}(#{ipaddr})")
             server = RedCubSMTPD.new(s, @domain)
             server.client_name = client_name
             server.remote_addr = ipaddr

@@ -24,6 +24,17 @@ module RedCub
       exec("insert into mails values (NULL, %s, %s, %s, %s, %s, %s, %s)",
            message_id, helo_host_id, from_id, to_id, receive_date,
            data_part, data_size)
+
+      result = query("select id from mails order by id desc limit 1")
+
+      if result.empty?
+        id = 1
+      else
+        id = result[0].id
+      end
+
+      exec("insert into maildatas values (NULL %s, %s, %s)",
+           id, message_id, data)
     end
 
     def get_data_part(data, count = 64)
