@@ -3,10 +3,10 @@ module RedCub
     module_function
 
     def write_backtrace
-      Syslog.info(format("%s: %s", $!.class, $!.message))
-      Syslog.info("backtrace:")
+      Syslog.err(format("%s: %s", $!.class, $!.message))
+      Syslog.err("backtrace:")
       for line in $!.backtrace
-        Syslog.info(line)
+        Syslog.err(line)
       end
     end
 
@@ -41,21 +41,36 @@ module RedCub
       return "\r\n"
     end
 
-    def get_message_id(data, hostname)
+    def get_tmail_object(data, hostname)
       message_id = nil
 
-      begin
-        tmail = TMail::Mail.parse(data)
-        message_id = tmail.msgid
-      rescue TMail::SyntaxError
-      end
+      tmail = TMail::Mail.parse(data)
+      message_id = tmail.message_id
 
       if !message_id.nil? and !message_id.empty? and
-          TMail::Mail.msgid?(message_id)
-        return message_id
+          TMail::Mail.message_id?(message_id)
+        return tmail
       end
 
-      return TMail.new_message_id(hostname)
+      message_id = TMail.new_message_id(hostname)
+      tmail.message_id = message_id
+      return tmail
+    end
+
+    def transaction(model)
+      trs = DataMapper::Transaction.new(model)
+      trs.begin
+      aborted = false
+
+      begin
+        yield
+      rescue Exception => e
+        trs.rollback
+        aborted = true
+        raise e.class.new(e.message)
+      ensure
+        trs.commit unless aborted
+      end
     end
   end
 end

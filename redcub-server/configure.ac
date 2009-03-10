@@ -26,5 +26,6 @@ AC_CONFIG_FILES([Makefile
                  lib/Makefile
                  lib/redcub/Makefile
                  lib/redcub/db-adapter/Makefile
+		 lib/redcub/model/Makefile
                  scripts/Makefile])
 AC_OUTPUT

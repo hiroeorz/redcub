@@ -7,35 +7,32 @@ module RedCub
       @interval = @config["sender"]["interval"].to_i
       @max_send_count = @config["sender"]["max_send_count"].to_i
       @myhostname = @config["myhostname"]
-
+      
       Syslog.info("sender is ready.")
     end
 
     def start
       super
 
-      QueueDB.open do |db|
-        loop do
-          begin
-            mails = db.query("select * from send_mailqueue
-                                order by receive_date")
-            mails.each do |mail|
-              begin
-                send_mail(mail.data, mail.sender, mail.orig_to)
-                db.exec("delete from send_mailqueue where message_id = %s",
-                        mail.message_id)
-              
-                Syslog.info("mail sended(message_id=#{mail.message_id}).")
-              rescue Exception
-                write_backtrace
-              end
-            end
-          rescue Exception
-            write_backtrace
-          end
+      loop do
+        begin
+          mails = Model::Sendqueue.all(:order => [:receive_date])
 
-          sleep @interval
+          mails.each do |mail|
+            begin
+              send_mail(mail.data.encoded, mail.sender, mail.orig_to)
+              mail.destroy
+              
+              Syslog.info("mail sended(message_id=#{mail.message_id}).")
+            rescue Exception
+              write_backtrace
+            end
+          end
+        rescue Exception
+          write_backtrace
         end
+        
+        sleep @interval
       end
     end
 

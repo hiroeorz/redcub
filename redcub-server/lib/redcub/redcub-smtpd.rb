@@ -14,11 +14,13 @@ module RedCub
 
       @mynetworks = @config["mynetworks"]
 
+      @local_queue = Model::Localqueue.new
+      @send_queue = Model::Sendqueue.new
+
       super(sock, domain)
     end
 
     def data_hook(data)
-      data = data.to_blob
       Syslog.info("helo=#{@helo_name} from=#{@sender} to=#{@recipients.join(',')}")
 
       begin
@@ -109,31 +111,33 @@ module RedCub
     end
 
     def save_queue(data, orig_to, queue_type = :local)
-      QueueDB.open do |db|
-        mail_id = get_message_id(data, @myhostname)
+      tmail = get_tmail_object(data, @myhostname)
+      
 
-        case queue_type
-        when :local
-          tablename = "local_mailqueue"
-        when :send
-          tablename = "send_mailqueue"
-        end
-
-        db.exec("insert into #{tablename}
-                   values (%s, %s, %s, %s, %s, %s, %s)",
-                mail_id,
-                @helo_name, @sender, @recipients.join(","),
-                orig_to, Time.now, data.to_blob)
-
-        return mail_id
-      end  
+      case queue_type
+      when :local
+        queue = @local_queue
+      when :send
+        queue = @send_queue
+      end
+      
+      queue.message_id = tmail.message_id
+      queue.helo_name = @helo_name
+      queue.mail_from = @sender
+      queue.recipients = @recipients.join(",")
+      queue.orig_to = orig_to
+      queue.receive_date = Time.now
+      queue.data = tmail
+      queue.save
+      
+      return queue.id
     end
-
+    
     def error(msg)
       Syslog.err(msg)
       super(msg)
     end
-
+    
     def write_backtrace
       Syslog.err(format("%s: %s", $!.class, $!.message))
       Syslog.err("backtrace:")

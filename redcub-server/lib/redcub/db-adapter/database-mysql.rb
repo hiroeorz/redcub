@@ -147,6 +147,7 @@ module RedCub
 
     def exec(fmt, *args)
       sql = format_sql(fmt, *args)
+      Syslog.debug("SQL: #{sql}")
       result = @conn.query(sql)
     end
 

@@ -33,14 +33,14 @@ module RedCub
         id = result[0].id
       end
 
-      exec("insert into maildatas values (NULL %s, %s, %s)",
-           id, message_id, data)
+      exec("insert into maildatas values (NULL, %s, %s, %s)",
+           id, message_id, data.to_blob)
     end
 
     def get_data_part(data, count = 64)
-      if data.jlength < count
-        return data
-      end
+      #if data.jlength < count
+        return data.toutf8
+      #end
 
       result = ""
 
@@ -49,7 +49,7 @@ module RedCub
         result.concat(c)
       end
 
-      return result
+      return result.toutf8
     end
 
     def get_host_id(hostname)

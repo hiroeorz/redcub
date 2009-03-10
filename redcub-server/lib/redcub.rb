@@ -1,11 +1,5 @@
 lib_path = File.expand_path(File.dirname(__FILE__))
 
-if ENV["RUBYLIB"].nil?
-  ENV["RUBYLIB"] = lib_path
-else
-  ENV["RUBYLIB"] = lib_path + ":" + ENV["RUBYLIB"]
-end
-
 begin
   require "rubygems"
 rescue LoadError
@@ -19,6 +13,8 @@ require "digest/md5"
 require "jcode"
 require "tmail"
 require "getoptlong"
+require "dm-core"
+require "dm-aggregates"
 
 require "smtpd"
 require "popd"
@@ -28,15 +24,19 @@ require "redcub/config"
 require "redcub/util"
 require "redcub/redcub-smtpd"
 require "redcub/redcub-popd"
-require "redcub/database"
-require "redcub/queue-db"
 require "redcub/daemon"
 require "redcub/receiver"
 require "redcub/sender"
 require "redcub/deliver"
-require "redcub/mail-box"
-require "redcub/mail-box-db"
 require "redcub/pop-server"
+
+require "redcub/model/localqueue"
+require "redcub/model/sendqueue"
+require "redcub/model/address"
+require "redcub/model/host"
+require "redcub/model/mail"
+require "redcub/model/mail-data"
+require "redcub/model/user"
 
 module RedCub
   LOG_FACILITIES = {
@@ -63,4 +63,13 @@ module RedCub
     "local8" => Syslog::LOG_LOCAL2
   }  
 end
+
+DataMapper.setup(:default, {
+                   :adapter => "mysql",
+                   :database => "redcub_mailbox",
+                   :host => "vdsv04",
+                   :username => "mysql",
+                   :password => "system",
+                   :encoding => "utf8"
+                 })
 

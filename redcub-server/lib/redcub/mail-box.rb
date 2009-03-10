@@ -7,6 +7,9 @@ module RedCub
 
       @config = Config.instance
 
+      MailBoxDB.default_client_encoding = "UTF8"
+      QueueDB.default_client_encoding = "UTF8"
+
       MailBoxDB.open do |db|
         @user_id = db.get_user_id(user)
       end

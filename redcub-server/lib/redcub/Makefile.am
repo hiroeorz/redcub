@@ -15,4 +15,4 @@ redcublib_DATA	= config.rb \
                   util.rb \
                   daemon.rb
 
-SUBDIRS		= db-adapter
+SUBDIRS		= db-adapter model
