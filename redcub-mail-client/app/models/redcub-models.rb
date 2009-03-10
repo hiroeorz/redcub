@@ -1,0 +1,7 @@
+require "redcub/model/localqueue"
+require "redcub/model/sendqueue"
+require "redcub/model/address"
+require "redcub/model/host"
+require "redcub/model/mail"
+require "redcub/model/mail-data"
+require "redcub/model/user"
