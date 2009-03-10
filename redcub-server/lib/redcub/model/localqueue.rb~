@@ -1,0 +1,11 @@
+class Localqueue
+  include DataMapper::Resource
+  
+  property :message_id, String, :key => true
+  property :helo_name, String
+  property :sender, String
+  property :recipients, String
+  property :orig_to, String
+  property :receive_date, DateTime
+  property :data, Text
+end

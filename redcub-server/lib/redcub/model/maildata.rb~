@@ -1,0 +1,8 @@
+class Mail
+  include DataMapper::Resource
+
+  property :id, Integer, :serial => true
+  property :mail_id, String
+  property :data, Text
+
+end
