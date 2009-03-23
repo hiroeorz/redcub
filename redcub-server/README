@@ -1,45 +1,43 @@
 = README for PingRush
 
-== About pingrush
+== About redcub
 
-PingRush is network watcher. This program is checking daemons on network.
-
-=== pingrush watcher
-
-This is simple watcher, that watches daemons on networks.
-This script is one liner. You also exec this scrip from cron.
-
-=== pingrush_drb_service
-
-This is drb service for pingrush-web-service.
-If you not need daemons informations from web site, you don't use this program.
+RedCubServer is small smtp server writed by Ruby. 
+RedCub uses MySQL(MySQL Cluster is better) for data archives.
 
 == Install
 
+creating user for RedCub
+
+# adduser redcub
+
+and create Makefile and install.
 $ ./bootstrap
 $ ./configure
 $ make
 # make install
 
-You can set prefix dir. Default prefix is /usr/local/pingrush
-$ ./configure --prefix=/home/hoge/pingrush
+You can set prefix dir. Default prefix is /usr/local
+$ ./configure --prefix=/home/hoge/redcub
+
+and if neccesally
+
+# cp scripts/init /etc/init.d/redcub
 
 == Exec script
 
-=== pingrush watcher
+# /usr/local/sbin/receiver [--daemon]
+# /usr/local/sbin/sender [--daemon]
+# /usr/local/sbin/deliver [--daemon]
 
-$ ruby /usr/local/pingrush/lib/watcher.rb [--mail]
+if you install init script.
+# /etc/init.d/redcub start
 
-option 
-  --mail: Script send mail anyway failed service exist or not exist.
-
-=== pingrush_drb_service
-$ /usr/local/pingrush/bin/pingrush_drb_service [--daemon]
-
-option
-  --daemon: Script exected back ground daemon.
+==Stop RedCub
+kill daemons yourself or ...
+# /etc/init.d/redcub stop
 
 == Bug report
 
-If you find bugs in pingrush, send mail to 'hiroe.orz@gmail.com'
+If you find bugs on RedCub, send mail to 'hiroe.orz@gmail.com'
 Thank you.
