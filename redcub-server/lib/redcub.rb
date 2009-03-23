@@ -1,3 +1,6 @@
+
+$KCODE = "UTF-8"
+
 lib_path = File.expand_path(File.dirname(__FILE__))
 
 begin
@@ -37,6 +40,8 @@ require "redcub/model/host"
 require "redcub/model/mail"
 require "redcub/model/mail-data"
 require "redcub/model/user"
+require "redcub/model/attached-file"
+require "redcub/model/filter"
 
 module RedCub
   LOG_FACILITIES = {

@@ -3,11 +3,11 @@ module RedCub
     class Sendqueue
       include DataMapper::Resource
    
-      storage_names[:default] = "sendqueue"
+      storage_names[:default] = "sendqueues"
    
       property :message_id, String, :key => true
       property :helo_name, String
-      property :sender, String
+      property :mail_from, String
       property :recipients, String
       property :orig_to, String
       property :receive_date, DateTime

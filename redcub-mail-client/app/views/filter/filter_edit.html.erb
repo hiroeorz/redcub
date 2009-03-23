@@ -1,0 +1,26 @@
+<div id="filter-edit">
+  <%= form_for(@filter, :action => url(:action => :save)) do -%>
+
+    <div class="filter-name-title">
+      名前
+    </div>
+    <div class="filter-name-value">
+      <%= text_field :name, :class => "filter-field" %>
+    </div>
+
+    <div class="filter-name-title">
+      対象
+    </div>
+    <div class="filter-name-value">
+      <%= text_field :target, :class => "filter-field" %>
+    </div>
+
+    <div class="filter-name-title">
+      Key Words
+    </div>
+    <div class="filter-name-value">
+      <%= text_field :keyword, :class => "filter-field" %>
+    </div>
+
+  <% end =%>
+</div>

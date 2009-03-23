@@ -1,0 +1,31 @@
+  <a class="mail-menu-bottom" href="javascript:void(0)"
+       onclick="mailer.sendmail('mail_edit')">
+    <%= image_tag("upload.png", :title => "送信") %>
+  </a>
+
+  <div style="clear:both;" />
+
+  <hr />
+
+  <div class="mail-body">
+    <form id="mail_edit">
+      <div class="edit_elem_name">送信先:</div>
+        <%= text_field :to, :class => :to_edit_area, :id => :to,
+                       :value => @to %>
+      
+	<div style="clear:both;" />
+
+        <div class="edit_elem_name">件名:</div>
+          
+	<%= text_field :subject, :class => :subject_edit_area, 
+                       :id => :subject,
+                       :value => @subject %>
+      
+	<div style="clear:both;" />
+
+        <%= text_area @body,
+                      :name => :body, :id => :body, 
+                      :class => :mail_edit_area%>
+      </div>
+    </form>
+  </div>

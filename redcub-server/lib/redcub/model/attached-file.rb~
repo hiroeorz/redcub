@@ -1,0 +1,10 @@
+module RedCub
+  module Model
+    class MailData
+      include DataMapper::Resource
+      
+      storage_names[:default] = "datas"
+
+    end
+  end
+end

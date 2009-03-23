@@ -7,6 +7,9 @@ module RedCub
       @interval = @config["sender"]["interval"].to_i
       @max_send_count = @config["sender"]["max_send_count"].to_i
       @myhostname = @config["myhostname"]
+      @mydomains = @config["mydomains"]
+      @relay_hosts = @config["sender"]["relay_hosts"]
+      @domain_parent_host = @config["sender"]["domain_parent_host"]
       
       Syslog.info("sender is ready.")
     end
@@ -20,7 +23,7 @@ module RedCub
 
           mails.each do |mail|
             begin
-              send_mail(mail.data.encoded, mail.sender, mail.orig_to)
+              send_mail(mail.data.encoded, mail.mail_from, mail.orig_to)
               mail.destroy
               
               Syslog.info("mail sended(message_id=#{mail.message_id}).")
@@ -39,6 +42,7 @@ module RedCub
     private
 
     def resolv_mx(mx_name)
+      Syslog.debug("mx_name: #{mx_name}")
       records = Resolv::DNS.new.getresources(mx_name, 
                                              Resolv::DNS::Resource::IN::MX)
       names_with_preference = records.collect { |r|
@@ -57,13 +61,25 @@ module RedCub
     end
 
     def send_mail(mail_data, from, to)
+      name = to.split(/@/)[0]
       mx_name = to.split(/@/)[1]
-      servers = resolv_mx(mx_name)
-      
+
+      if @mydomains.include?(mx_name) and !Model::User.exist?(name)
+        servers = [@domain_parent_host]
+      else
+        if @relay_hosts.nil?
+          servers = resolv_mx(mx_name)
+        else
+          servers = @relay_hosts.dup
+        end
+      end 
+
       servers.each do |server|
         Net::SMTP.start(server, 25, @myhostname) do |s|
           begin
+            Syslog.info("connecting to #{server}...")
             s.send_mail(mail_data, from, [to])
+            Syslog.info("disconnect from #{server}.")
             return true
           rescue Exception
             write_backtrace

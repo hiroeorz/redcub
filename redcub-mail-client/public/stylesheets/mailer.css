@@ -1,0 +1,217 @@
+.mailbox-list {  
+  display: block;
+  float: left;
+  width:120px;
+  border: none;
+  border-right: none;
+  margin: 0;
+  margin-left: 10px;
+  padding:0;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  height: 500px;
+}
+
+.mailbox-name {
+  width: 115px;
+  border: none
+  height: 35px;
+  padding: 0;
+  padding-top: 5px;
+  padding-left: 5px;
+  text-align: left;
+  color: #f60;
+  margin: 0;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  line-height: 30px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.mailbox-name-selected {
+  font-weight: bold;
+  border: none;
+  background-color: #fea;
+  text-decoration: none;
+}
+
+.mailbox {  
+  display: block;
+  float: left;
+  width:830px;
+  height: 500px;
+  background-color: #fea;
+  padding: 4px;
+  border: none;
+}
+
+.mail-preview {
+  display: block;
+  float: left;
+  height: 21px;
+  border: 1px solid #ccc;
+  margin:  0;
+  padding: 0;
+  overflow: hidden;
+  text-align: left;
+  background-color: #fff;
+  cursor: pointer;
+  line-height: 1.8;
+}
+
+.mail-preview-from {
+  width: 150px;
+  border-right: 0;
+  margin-top: -1px;
+  padding-left: 3px;
+}
+
+.mail-preview-body {
+  width:600px;
+  border-left:0;
+  border-right:0;
+  margin-top:-1px;
+}
+
+.mail-preview-time {
+  width:70px;
+  border-left:0;
+  margin-top:-1px;
+  padding-right:3px;
+  text-align:right;
+}
+
+.mail {
+  padding: 7px;
+  height: 550px;
+}
+
+.mail h2 {
+  background-color: #9cf;
+  padding: 5px;
+}
+
+.header-field {
+  background-color: #ccc;
+  padding: 3px;
+  color: #555;
+  margin: 0;
+  display: none;
+}
+
+a.mail-menu-bottom {
+  display: block;
+  float: left;
+  width: 35px;
+  color: #666;
+  padding: 2px;
+  margin: 0;
+  margin-bottom: 5px;
+  margin-right: 1px;
+  background-color: #eef;
+  border: 1px outset #eee;
+  text-align: center;
+  cursor: pointer;
+  height: 30px;
+  line-height: 30px;
+  text-align: center;
+}
+
+a.mail-menu-bottom-selected {
+  border: 1px inset #eee;
+  background-color: #99f;
+}
+
+#all-read-bottom {
+  display: none;
+}
+
+.one-of-list-readed {
+  font-weight: normal;
+}
+
+.one-of-list {
+  font-weight: bold;
+}
+
+.mail_edit_area {
+  display: block;
+  float: left;
+  width: 770px;
+  height: 350px;
+  margin: 0;
+  margin-right: 3px;
+}
+
+.to_edit_area {
+  display: block;
+  float: left;
+  width: 430px;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.subject_edit_area {
+  display: block;
+  float: left;
+  width: 400px;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.edit_elem_name {
+  display: block;
+  float: left;
+  width: 50px;
+  font-weight: bold;
+  text-align: right;
+  margin-right: 5px;
+}
+
+.profile-image {
+  display: block;
+  float: left;
+}
+
+.profile-data {
+  display: block;
+  float: left;
+}
+
+.profile-data-title {
+  display: block;
+  float: left;
+  width: 80px;
+  height: 1.5em;
+  font-weight: bold;
+  color: #555;
+  border: none;
+  border-bottom: 1px solid #555;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.profile-data-value {
+  display: block;
+  float: left;
+  width: 220px;
+  height: 1.5em;
+  font-weight: normal;
+  color: #888;
+  border: none;
+  border-bottom: 1px solid #555;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+.profile-field {
+  margin:0;
+  width: 200px;
+  font-size: 11px;
+}
+
+.profile-bottom {
+  width: 365px;
+  text-align: right;
+}

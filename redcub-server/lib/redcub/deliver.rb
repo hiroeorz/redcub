@@ -13,6 +13,9 @@ module RedCub
 
     def start
       super
+      
+      transaction = DataMapper::Transaction.new(Model::Localqueue, Model::Mail,
+                                                Model::MailData)
 
       loop do
         begin
@@ -20,42 +23,51 @@ module RedCub
 
           mails.each do |mail|
             begin
-              transaction(Model::Mail) do
-                transaction(Model::MailData) do
-                  tmail = mail.data
-                  
-                  user = mail.orig_to.split(/@/)[0]
-                  from_id = get_address_id(mail.mail_from)
-                  user_id = get_user_id(user)
-                                    
-                  mail_data = Model::MailData.new
-                  
-                  if tmail.multipart?
-                    
-                  else
-                    mail_data.message_id = tmail.message_id
-                    mail_data.data = tmail
-                    mail_data.subject = tmail.subject.toutf8
-                    mail_data.receive_date = mail.receive_date
-                    mail_data.body = tmail.body.toutf8
-                    mail_data.save
-                  end
 
-                  new_mail = Model::Mail.new
-                  new_mail.message_id = tmail.message_id
-                  new_mail.mail_from_id = from_id
-                  new_mail.mail_to_id = user_id
-                  new_mail.receive_date = mail.receive_date
-                  new_mail.subject = tmail.subject.toutf8
-                  new_mail.mail_data_id = mail_data.id
-                  new_mail.save
+              transaction do
+                tmail = mail.data
 
-                  mail.destroy
-                  Syslog.info("mail deliverd(Message-ID=#{mail.message_id}).")
+                if tmail.from.nil?
+                  tmail.from = mail.mail_from
                 end
-              end
 
-            rescue
+                user = mail.orig_to.split(/@/)[0]
+                from_id = get_address_id(tmail)
+                user_id = get_user_id(user)
+
+                filter_id = Model::Filter.filter_id(tmail, user_id)
+                
+                header = OrderHash.new
+                tmail.each_header do |key, value|
+                  header[key] = value.to_s.toutf8
+                end
+
+                mail_data = Model::MailData.new
+                body = get_message_body(tmail).toutf8
+                mail_data.message_id = tmail.message_id
+                mail_data.receive_date = mail.receive_date
+                mail_data.header = header
+                mail_data.body = body
+                
+                new_mail = Model::Mail.new
+                new_mail.user_id = user_id
+                new_mail.message_id = tmail.message_id
+                new_mail.mail_from_id = from_id
+                new_mail.filter_id = filter_id
+                new_mail.receive_date = mail.receive_date
+                new_mail.mail_data = mail_data
+                new_mail.attached_files = get_attached_files(tmail)
+                new_mail.subject = tmail.subject.toutf8
+                new_mail.body_part = get_string_part(body)
+                
+                new_mail.save
+
+                mail.destroy
+              end
+              
+              Syslog.info("mail deliverd(Message-ID=#{mail.message_id}).")
+              
+            rescue Exception
               write_backtrace
             end
           end
@@ -65,31 +77,6 @@ module RedCub
 
         sleep @interval
       end
-    end
-
-    private
-
-    def get_address_id(address)
-      record = Model::Address.first(:value => address)
-      
-      unless record.nil?
-        return record.id
-      end
-
-      record = Model::Address.new
-      record.value = address
-      record.save
-      return record.id
-    end
-
-    def get_user_id(username)
-      user = Model::User.first(:name => username)
-
-      if user.nil?
-        raise ArgumentError.new("no such user '#{username}'")
-      end
-
-      return user.id
     end
   end
 end

@@ -6,4 +6,6 @@ model_DATA	= sendqueue.rb \
 	          host.rb \
                   mail.rb \
                   mail-data.rb \
-                  user.rb
+                  user.rb \
+                  attached-file.rb \
+                  filter.rb

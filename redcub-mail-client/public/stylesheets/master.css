@@ -2,6 +2,7 @@ body {
   font-family: Arial, Verdana, sans-serif;
   font-size: 12px;
   background-color: #fff;
+  text-align: left;
 }
 * {
   margin: 0px;
@@ -12,20 +13,31 @@ html {
   height: 100%;
   margin-bottom: 1px;
 }
+
+img {
+  border: none;
+}
+
 #container {
-  width: 80%;
+  width: 1000px;
+  overflow: hidden;
   text-align: left;
   background-color: #fff;
   margin-right: auto;
-  margin-left: auto;
+  margin-left: 0;
+  padding: 5px;
 }
 #header-container {
-  width: 100%;
-  padding-top: 15px;
+  margin: 0;
+  margin-top: -1em;
+  width: 90%;
 }
 #header-container h1, #header-container h2 {
-  margin-left: 6px;
-  margin-bottom: 6px;
+  margin-left: 15px;
+  margin-bottom: 20px;
+  font-size: 40px;
+  color: #c00;
+  font-weight: bold;
 }
 .spacer {
   width: 100%;
@@ -33,11 +45,12 @@ html {
 }
 hr {
   border: 0px;
-  color: #ccc;
+  color: #777;
   background-color: #cdcdcd;
   height: 1px;
   width: 100%;
   text-align: left;
+  margin-bottom: 10px;
 }
 h1 {
   font-size: 28px;
@@ -47,11 +60,12 @@ h1 {
   font-weight: 300;
 }
 h2 {
-  font-size: 15px;
-  color: #999;
+  font-size: 20px;
+  color: #66f;
   font-family: Arial, Verdana, sans-serif;
-  font-weight: 300;
+  font-weight: 600;
   background-color: #fff;
+  margin-bottom: 7px;
 }
 h3 {
   color: #4d9b12;
@@ -99,6 +113,11 @@ a:hover {
   clear: both;
   font-size: 12px;
   font-family: Verdana, Arial, sans-serif;
+  border: none;
+  border-top: 1px solid #ccc;
+  text-align: center;
+  color: #aaa;
+  margin-top: 20px;
 }
 .right {
   float: right;
@@ -116,4 +135,17 @@ a:hover {
 }
 #main-container ul {
   margin-left: 3.0em;
+}
+
+span.red {
+  color: #f69;
+  font-weight: bold;
+}
+
+#logout {
+  display: block;
+  float: right;
+  margin: 0;
+  padding: 0;
+  padding-right: 5px;
 }

@@ -1,0 +1,45 @@
+# /bin/sh
+
+PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
+
+receiver_pid_file=/tmp/redcub_receiver.pid
+sender_pid_file=/tmp/redcub_sender.pid
+deliver_pid_file=/tmp/redcub_deliver.pid
+pop_pid_file=/tmp/redcub_pop-server.pid
+
+test -x $DAEMON || exit 0
+
+set -e
+
+case "$1" in
+  start)
+	if test -f $receiver_pid_file; then
+	  echo "receiver already started"
+	  exit 1
+	fi
+	if test -f $sender_pid_file; then
+	  echo "sender already started"
+	  exit 1
+	fi
+	if test -f $deliver_pid_file; then
+	  echo "deliver already started"
+	  exit 1
+	fi
+	if test -f $pop_pid_file; then
+	  echo "pop server already started"
+	  exit 1
+	fi
+
+	su - redcub -c '/usr/local/sbin/redcub-receiver'
+	su - redcub -c '/usr/local/sbin/redcub-sender'
+	su - redcub -c '/usr/local/sbin/redcub-deliver'
+	su - redcub -c '/usr/local/sbin/redcub-pop-server'
+
+	;;
+
+  stop)
+	echo -n "Stopping redcub receiver..."
+	if test -f $receiver_pid_file; then
+	  pid=`cat $receiver_pid_file`
+	  kill $pid || /bin/true
+	  rm -f $receiver_pid_file

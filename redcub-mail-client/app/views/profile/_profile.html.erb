@@ -1,0 +1,49 @@
+<div class="profile-image">
+  <%= image_tag("person.png") %>
+</div>
+
+<div class="profile-data">
+
+  <div class="profile-data-title">
+    ID
+  </div>
+  <div class="profile-data-value">
+    <%= @user.name %>
+  </div>
+
+  <div style="clear:both"></div>
+
+  <div class="profile-data-title">
+    名前
+  </div>
+  <div class="profile-data-value">
+    <%= @user.person_name %>
+  </div>
+
+  <div style="clear:both"></div>
+
+  <div class="profile-data-title">
+    MAIL
+  </div>
+  <div class="profile-data-value">
+    <%= @user.mailaddress %>
+  </div>
+
+  <div style="clear:both"></div>
+
+  <div class="profile-data-title">
+    パスワード
+  </div>
+  <div class="profile-data-value">
+    *****
+  </div>
+
+  <div style="clear:both"></div>
+
+</div>
+
+<div style="clear:both"></div>
+
+<div class="profile-bottom">
+  <%= submit("編集", :onclick => "profile.changeEditMode('#profile')") %>
+</div>

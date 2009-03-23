@@ -1,0 +1,63 @@
+<div id="profile">
+
+  <div class="profile-image">
+    <%= image_tag("person.png") %>
+  </div>
+
+  <div class="profile-data">
+
+    <%= form_for(@user, :action => url(:action => :save),
+                        :class=> "profile-form",
+                        :id => "profile-form") do -%>
+
+      <div class="profile-data-title">
+        ID
+      </div>
+      <div class="profile-data-value">
+	<%= @user.name %>
+      </div>
+
+      <div style="clear:both"></div>
+
+      <div class="profile-data-title">
+        名前
+      </div>
+      <div class="profile-data-value">
+        <%= text_field :person_name, 
+                       :class => "profile-field profile-field-name" %>
+      </div>
+
+      <div style="clear:both"></div>
+
+      <div class="profile-data-title">
+        MAIL
+      </div>
+      <div class="profile-data-value">
+        <%= text_field :mailaddress, 
+                       :class => "profile-field profile-field-address" %>
+      </div>
+
+      <div style="clear:both"></div>
+
+      <div class="profile-data-title">
+        パスワード
+      </div>
+      <div class="profile-data-value">
+        <%= password_field :password, 
+                           :class => "profile-field profile-field-password" %>
+      </div>
+
+      <div style="clear:both"></div>
+
+    <% end =%>
+
+
+  </div>
+
+  <div style="clear:both"></div>
+
+  <div class="profile-bottom">
+    <%= submit("保存", :onclick => "profile.save('#profile-form')") %>
+  </div>
+
+</div>

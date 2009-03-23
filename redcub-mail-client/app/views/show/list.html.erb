@@ -1,0 +1,82 @@
+
+
+<div class="mailbox-list" id="mailbox-list">
+  <div class="mailbox-name mailbox-name-selected"
+       id="mailbox-name"
+       onclick="mailer.updateMailList('', undefined, this.id)">
+    <%= image_tag("home.png") %>受信箱
+  </div>
+
+  <% @filters.each do |f| -%>
+    <div class="mailbox-name" id="mailbox-name-<%= f.name %>"
+         onclick="mailer.updateMailList('<%= f.name%>', undefined, this.id)">
+      <%= image_tag("tray.png") %><%= f.name %>
+    </div>
+  <% end -%>
+
+  <div class="mailbox-name"
+       id="mailbox-name-sended"
+       onclick="mailer.updateMailList('sended', undefined, this.id)">
+    <%= image_tag("sended.png") %>送信済
+  </div>
+
+  <div class="mailbox-name"
+       id="mailbox-name-trash"
+       onclick="mailer.updateMailList('trash', undefined, this.id)">
+    <%= image_tag("trash_empty.png") %>ごみ箱
+  </div>
+</div>
+
+
+<div class="mailbox" id="mailbox">
+  <a class="mail-menu-bottom" href="javascript:void(0)"
+       onclick="mailer.updateMailList('', [0, 1])">
+    <%= image_tag("download.png", :title => "取得") %>
+  </a>
+
+  <a class="mail-menu-bottom" href="/edit/new"
+       onclick="return hs.htmlExpand(this, {objectType: 'ajax',
+                                            cacheAjax: false,
+                                            preservedContent: false})">
+    <%= image_tag("newmail.png", :title => "新規作成") %>
+  </a>
+
+  <div class="highslide-heading">
+    新規作成
+  </div>
+
+  <a class="mail-menu-bottom" href="javascript:void(0)"
+     id="yet-read-bottom"
+       onclick="mailer.updateMailList(undefined, [0])">
+    <%= image_tag("notice.png", :title => "未読のみ") %>
+  </a>
+
+  <a class="mail-menu-bottom mail-menu-bottom-selected" 
+     href="javascript:void(0)"
+     id="all-read-bottom"
+       onclick="mailer.updateMailList(undefined, [0, 1])">
+    <%= image_tag("notice.png", :title => "全て表示") %>
+  </a>
+
+  <a class="mail-menu-bottom" href="/profile"
+       onclick="return hs.htmlExpand(this, {objectType: 'ajax',
+                                            cacheAjax: false,
+                                            preservedContent: false,
+                                            width: 370,
+                                            height: 260})">
+    <%= image_tag("profile.png", :title => "プロフィール") %>
+  </a>
+
+  <div class="highslide-heading">
+    プロフィール
+  </div>
+
+  <div style="clear:both" ></div>
+
+
+  <div id="mailList">
+    <%= partial :maillist %>
+  </div>
+</div>
+
+<div style="clear:both;"></div>

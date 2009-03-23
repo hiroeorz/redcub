@@ -15,4 +15,7 @@ Merb::Config.use { |c|
 
   # UserConfigration
   c[:mailCountPerPage] = 50
+
+  c[:pop3auth_host] = "192.168.4.64"
+  c[:pop3auth_port] = 110
 }

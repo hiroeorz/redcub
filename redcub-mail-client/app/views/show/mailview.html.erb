@@ -1,0 +1,30 @@
+<div class="mail" id="mailview">
+  <a class="mail-menu-bottom" href="javascript:void(0)"
+       onclick="mailer.returnMail(<%= @mail.id %>)">
+    <%= image_tag("return.png", :title => "返信") %>
+  </a>
+
+  <a class="mail-menu-bottom" href="javascript:void(0)"
+       onclick="mailer.deleteMail(<%= @mail.id %>)">
+    <%= image_tag("trash_empty.png", :title => "削除") %>
+  </a>
+
+  <a class="mail-menu-bottom" href="javascript:void(0)"
+       onclick="mailer.displayHeader(<%= @mail.id %>);">
+    <%= image_tag("header.png", :title => "ヘッダ表示") %>
+  </a>
+
+  <div style="clear:both;" />
+
+  <hr />
+
+  <div class="header-field" id="header-field-<%= @mail.id %>">
+    <% @header.each do |key, value| -%>
+      <%= key %>:&nbsp;<%= value.toutf8 %><br />
+    <% end -%>
+  </div>
+
+  <div class="mail-body">
+    <%=br @body %>
+  </div>
+</div>

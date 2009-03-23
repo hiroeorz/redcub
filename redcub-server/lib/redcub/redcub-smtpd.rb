@@ -8,6 +8,7 @@ module RedCub
       @config = Config.instance
       @myhostname = @config["myhostname"]
       @mydomains = @config["mydomains"]
+      @domain_parent_host = @config["sender"]["domain_parent_host"]
 
       @client_name = nil
       @remote_addr = nil
@@ -23,11 +24,21 @@ module RedCub
     def data_hook(data)
       Syslog.info("helo=#{@helo_name} from=#{@sender} to=#{@recipients.join(',')}")
 
+      File.open("/tmp/mail.txt", "wb") do |f|
+        f.write(data)
+      end
+
       begin
         @recipients.each do |orig_to|
+          name = orig_to.split(/@/)[0]
           domain = orig_to.split(/@/)[1]
 
-          if @mydomains.include?(domain)
+          if @mydomains.include?(domain) and !Model::User.exist?(name) and
+              @domain_parent_host.nil?
+            raise error("550 Recipient address rejected.")
+          end
+
+          if @mydomains.include?(domain) and Model::User.exist?(name)
             mail_id = save_queue(data, orig_to, :local)
             Syslog.info("saved to local mail queue id=#{mail_id}")
           else
@@ -78,13 +89,10 @@ module RedCub
 
         result = compare_network(my_address, ip_address, mask)
 
-
         return result if result
       end
 
-      unless result
-        Syslog.notice("Warning: no mynetworks address connected(#{ip_address})")
-      end
+      Syslog.notice("Warning: no mynetworks address connected(#{ip_address})")
 
       return false
     end
@@ -123,8 +131,8 @@ module RedCub
       
       queue.message_id = tmail.message_id
       queue.helo_name = @helo_name
-      queue.mail_from = @sender
-      queue.recipients = @recipients.join(",")
+      queue.mail_from = @sender.toutf8
+      queue.recipients = @recipients.join(",").toutf8
       queue.orig_to = orig_to
       queue.receive_date = Time.now
       queue.data = tmail

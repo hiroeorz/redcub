@@ -6,12 +6,11 @@ module RedCub
       storage_names[:default] = "datas"
       
       property :id, Integer, :serial => true
+      property :mail_id, Integer, :nullable => false
       property :message_id, String
-      property :data, Object
       property :receive_date, DateTime
-      property :subject, String
+      property :header, Object
       property :body, Text
-
     end
   end
 end

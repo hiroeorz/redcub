@@ -25,20 +25,33 @@
 # You can also use regular expressions, deferred routes, and many other options.
 # See merb/specs/merb/router.rb for a fairly complete usage sample.
 
+Merb::Authentication.user_class = RedCub::Model::User
+
 Merb.logger.info("Compiling routes...")
 Merb::Router.prepare do
   # RESTful routes
   # resources :posts
   
   # Adds the required routes for merb-auth using the password slice
-  slice(:merb_auth_slice_password, :name_prefix => nil, :path_prefix => "")
+  slice(:merb_auth_slice_password, 
+        :name_prefix => nil, 
+        :path_prefix => "")
+
+  match("/show/list/:filter").
+    to(:controller => "show", :action => "list")
+  match("/show/list_ajax/:filter").
+    to(:controller => "show", :action => "list_ajax")
 
   # This is the default route for /:controller/:action/:id
   # This is fine for most cases.  If you're heavily using resource-based
   # routes, you may want to comment/remove this line to prevent
   # clients from calling your create or destroy actions with a GET
-  default_routes
+   default_routes
   
   # Change this for your home page to be available at /
-  # match('/').to(:controller => 'whatever', :action =>'index')
+  match('/').to(:controller => 'show', :action =>'list')
+
+#  match("/:controller/:action/:id").
+#    to(:controller => ":controller", :action => ":action")
+
 end
