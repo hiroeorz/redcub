@@ -26,9 +26,9 @@ and if neccesally
 
 == Exec script
 
-# sudo -u redcub /usr/local/sbin/receiver [--daemon]
-# sudo -u redcub /usr/local/sbin/sender [--daemon]
-# sudo -u redcub /usr/local/sbin/deliver [--daemon]
+# sudo -u redcub /usr/local/sbin/redcub-receiver [--daemon]
+# sudo -u redcub /usr/local/sbin/redcub-sender [--daemon]
+# sudo -u redcub /usr/local/sbin/redcub-deliver [--daemon]
 
 if you install init script.
 # /etc/init.d/redcub start
