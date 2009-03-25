@@ -20,6 +20,7 @@ require "dm-core"
 require "dm-aggregates"
 require "mogilefs"
 require "base64"
+require "zlib"
 
 require "smtpd"
 require "popd"

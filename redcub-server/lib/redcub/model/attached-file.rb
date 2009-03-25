@@ -1,6 +1,8 @@
 module RedCub
   module Model
     class AttachedFile
+      CompressMinSize = 1000 # file compressed when CompressMinSize > @file.size
+
       include DataMapper::Resource
       
       after :save, :mogile_store
@@ -36,7 +38,7 @@ module RedCub
       def mogile_read
         mogile = MogileFS::MogileFS.new(:domain => mogile_domain, 
                                         :hosts => @mogile_hosts)
-        return mogile.get_file_data(self.id)
+        return Zlib::Inflate.inflate(mogile.get_file_data(self.id))
       end
 
       def mogile_domain
@@ -47,7 +49,14 @@ module RedCub
         setup_mogilefs
         mogile = MogileFS::MogileFS.new(:domain => mogile_domain, 
                                         :hosts => @mogile_hosts)
-        mogile.store_content(self.id, "normal", @file_data)
+        compress_level = Zlib::NO_COMPRESSION
+
+        if CompressMinSize < @file_data.size
+          compress_level = Zlib::BEST_COMPRESSION
+        end
+
+        mogile.store_content(self.id, "normal", 
+                             Zlib::Deflate.deflate(@file_data, compress_level))
       end
 
       def mogile_delete
