@@ -1,10 +1,10 @@
 module RedCub
   module Model
-    class User
+    class User < Model
       include DataMapper::Resource
-   
+
       storage_names[:default] = "users"
-   
+
       property :id, Integer, :serial => true
       property :name, String, :nullable => false
       property :person_name, String, :nullable => false

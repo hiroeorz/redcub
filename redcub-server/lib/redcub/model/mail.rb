@@ -1,8 +1,8 @@
 module RedCub
   module Model
-    class Mail
+    class Mail < Model
       include DataMapper::Resource
-   
+
       storage_names[:default] = "mails"
    
       property :id, Integer, :serial => true, :key => true

@@ -1,6 +1,6 @@
 module RedCub
   module Model
-    class Address
+    class Address < Model
       include DataMapper::Resource
 
       storage_names[:default] = "addresses"

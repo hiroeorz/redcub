@@ -36,6 +36,7 @@ require "redcub/sender"
 require "redcub/deliver"
 require "redcub/pop-server"
 
+require "redcub/model/model"
 require "redcub/model/localqueue"
 require "redcub/model/sendqueue"
 require "redcub/model/address"

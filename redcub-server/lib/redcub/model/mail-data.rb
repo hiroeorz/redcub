@@ -1,8 +1,8 @@
 module RedCub
   module Model
-    class MailData
+    class MailData < Model
       include DataMapper::Resource
-      
+
       storage_names[:default] = "datas"
       
       property :id, Integer, :serial => true

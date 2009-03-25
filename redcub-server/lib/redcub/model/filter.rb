@@ -1,6 +1,6 @@
 module RedCub
   module Model
-    class Filter
+    class Filter < Model
       include DataMapper::Resource
 
       storage_names[:default] = "filters"
