@@ -4,6 +4,7 @@
 
 RedCubServer is small smtp server writed by Ruby. 
 RedCub uses MySQL(MySQL Cluster is better) for data archives.
+RedCub uses MogileFS for saving attached files.
 
 == Install
 
