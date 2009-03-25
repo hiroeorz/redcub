@@ -39,7 +39,7 @@ module RedCub
                 
                 header = OrderHash.new
                 tmail.each_header do |key, value|
-                  header[key] = value.to_s.toutf8
+                  header[key] = Base64.decode_b(value.to_s).toutf8
                 end
 
                 mail_data = Model::MailData.new
@@ -56,7 +56,7 @@ module RedCub
                 new_mail.filter_id = filter_id
                 new_mail.receive_date = mail.receive_date
                 new_mail.mail_data = mail_data
-                new_mail.attached_files = get_attached_files(tmail)
+                new_mail.attached_files = get_attached_files(user_id, tmail)
                 new_mail.subject = tmail.subject.toutf8
                 new_mail.body_part = get_string_part(body)
                 

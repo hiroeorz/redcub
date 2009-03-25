@@ -41,7 +41,7 @@ module RedCub
       return "\r\n"
     end
 
-    def get_attached_files(tmail)
+    def get_attached_files(user_id, tmail)
       unless tmail.multipart?
         return []
       end
@@ -51,10 +51,15 @@ module RedCub
       tmail.parts.each do |part|
         case part.content_transfer_encoding
         when "base64", "x-uuencode"
+          decoded_filename = 
+            Base64.decode_b(part.disposition_param("filename")).toutf8
+
           attached_file = Model::AttachedFile.new
-          attached_file.filename = part.disposition_param("filename")
+          attached_file.user_id = user_id
+          attached_file.filename = decoded_filename
           attached_file.filetype = part.content_type
-          attached_file.file = part.body
+          attached_file.filesize = part.body.size
+          attached_file.file_data = part.body
           array.push(attached_file)
         end
       end

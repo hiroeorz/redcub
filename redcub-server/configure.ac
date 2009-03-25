@@ -25,7 +25,6 @@ AM_PATH_RUBY(1.8.2)
 AC_CONFIG_FILES([Makefile
                  lib/Makefile
                  lib/redcub/Makefile
-                 lib/redcub/db-adapter/Makefile
 		 lib/redcub/model/Makefile
                  scripts/Makefile])
 AC_OUTPUT

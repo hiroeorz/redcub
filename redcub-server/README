@@ -37,6 +37,9 @@ if you install init script.
 kill daemons yourself or ...
 # /etc/init.d/redcub stop
 
+==ToDo
+I think use MogileFS for Saving attached files.
+
 == Bug report
 
 If you find bugs on RedCub, send mail to 'hiroe.orz@gmail.com'

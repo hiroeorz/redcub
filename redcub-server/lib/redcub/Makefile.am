@@ -1,7 +1,6 @@
 redcublibdir	= $(rubysitelibdir)/redcub
 
 redcublib_DATA	= config.rb \
-                  database.rb \
                   deliver.rb \
                   hbase-table.rb \
                   mail-box-db.rb \
@@ -15,4 +14,4 @@ redcublib_DATA	= config.rb \
                   util.rb \
                   daemon.rb
 
-SUBDIRS		= db-adapter model
+SUBDIRS		= model

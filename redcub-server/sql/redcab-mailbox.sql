@@ -66,19 +66,21 @@ create table datas(
 
 ###################################################################
 
-create tablespace attached_file_ts add datafile 'attached_file.dat'
-	use logfile group lg_1 engine ndb;
-alter tablespace attached_file_ts add datafile 'attached_file_1.dat' engine ndb;
-alter tablespace attached_file_ts add datafile 'attached_file_2.dat' engine ndb;
-alter tablespace attached_file_ts add datafile 'attached_file_3.dat' engine ndb;
+#create tablespace attached_file_ts add datafile 'attached_file.dat'
+#	use logfile group lg_1 engine ndb;
+#alter tablespace attached_file_ts add datafile 'attached_file_1.dat' engine ndb;
+#alter tablespace attached_file_ts add datafile 'attached_file_2.dat' engine ndb;
+#alter tablespace attached_file_ts add datafile 'attached_file_3.dat' engine ndb;
 
 create table attached_files (
        id BIGINT PRIMARY KEY AUTO_INCREMENT,
        mail_id BIGINT NOT NULL,
+       user_id INTEGER NOT NULL,
        filename VARCHAR(256) NOT NULL,
-       filetype VARCHAR(32) NOT NULL DEFAULT 'test/plain',
-       file LONGBLOB)
-       tablespace attached_file_ts storage disk ENGINE=NDB;
+       filetype VARCHAR(32) NOT NULL DEFAULT 'test/plain')
+       ENGINE=NDBCLUSTER;
+
+alter table attached_files add column filesize INTEGER NOT NULL DEFAULT 0;
 
 ###################################################################
 

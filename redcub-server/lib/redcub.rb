@@ -18,6 +18,8 @@ require "tmail"
 require "getoptlong"
 require "dm-core"
 require "dm-aggregates"
+require "mogilefs"
+require "base64"
 
 require "smtpd"
 require "popd"
