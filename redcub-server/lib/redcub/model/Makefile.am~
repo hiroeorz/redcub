@@ -1,4 +1,0 @@
-modeldir	= $(rubysitelibdir)/redcub/model
-
-model_DATA	= sendqueue.rb \
-                  localqueue.rb

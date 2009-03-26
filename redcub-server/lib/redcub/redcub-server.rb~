@@ -1,8 +1,0 @@
-require "redcub"
-
-
-module RedCub
-  class RedCubServer < Daemon
-
-  end
-end
