@@ -11,7 +11,7 @@ module RedCub
       @line_length_limit = @config["smtpd"]["line_length_limit"]
       @input_timeout = @config["smtpd"]["input_timeout"]
       @error_interval = @config["smtpd"]["error_interval"]
-      @max_size = @config["smtpd"]["max_size"].to_i
+      @max_size = @config["smtpd"]["max_size"].to_i * 1024 * 1024
 
       Syslog.info("receiver is ready.")
     end

@@ -25,7 +25,7 @@ module RedCub
             begin
 
               transaction do
-                tmail = mail.data
+                tmail = get_tmail_object(mail.data, @myhostname)
 
                 if tmail.from.nil?
                   tmail.from = mail.mail_from

@@ -121,7 +121,6 @@ module RedCub
     def save_queue(data, orig_to, queue_type = :local)
       tmail = get_tmail_object(data, @myhostname)
       
-
       case queue_type
       when :local
         queue = @local_queue
@@ -135,7 +134,7 @@ module RedCub
       queue.recipients = @recipients.join(",").toutf8
       queue.orig_to = orig_to
       queue.receive_date = Time.now
-      queue.data = tmail
+      queue.data = tmail.encoded
       queue.save
       
       return queue.id

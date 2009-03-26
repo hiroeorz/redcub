@@ -4,6 +4,7 @@ module RedCub
       include DataMapper::Resource
 
       after :save, :mogile_store
+
       storage_names[:default] = "attached_files"
 
       property :id, Integer, :serial => true
@@ -15,16 +16,12 @@ module RedCub
 
       belongs_to :mail
 
-      def initialize
-        setup
-      end
-
       def file_data
         return mogile_read
       end
 
       def file_data=(data)
-        @file_data = data
+        @data = data
       end
     end
   end

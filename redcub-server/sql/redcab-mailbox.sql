@@ -11,8 +11,7 @@ create table sendqueues (
 	mail_from varchar(128) NOT NULL,
 	recipients varchar(512) NOT NULL,
 	orig_to varchar(128) NOT NULL,
-	receive_date DateTime,
-        data LONGBLOB)ENGINE=NDBCLUSTER;
+	receive_date DateTime)ENGINE=NDBCLUSTER;
 
 create table localqueues (
 	message_id varchar(256) NOT NULL PRIMARY KEY,
@@ -20,8 +19,7 @@ create table localqueues (
 	mail_from varchar(128) NOT NULL,
 	recipients varchar(512) NOT NULL,
 	orig_to varchar(128) NOT NULL,
-	receive_date DateTime,
-        data LONGBLOB)ENGINE=NDBCLUSTER;
+	receive_date DateTime)ENGINE=NDBCLUSTER;
 
 ###################################################################
 

@@ -23,7 +23,7 @@ module RedCub
 
           mails.each do |mail|
             begin
-              send_mail(mail.data.encoded, mail.mail_from, mail.orig_to)
+              send_mail(mail.data, mail.mail_from, mail.orig_to)
               mail.destroy
               
               Syslog.info("mail sended(message_id=#{mail.message_id}).")
