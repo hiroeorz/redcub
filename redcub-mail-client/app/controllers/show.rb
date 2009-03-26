@@ -12,7 +12,7 @@ class Show < Application
     @filters = Filter.all(:user_id => session.user.id,
                           :order => [:id])
     get_mails
-    render  
+    render 
   end
 
   def list_ajax

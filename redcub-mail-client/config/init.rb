@@ -6,8 +6,10 @@ require "tmail"
 require "order-hash"
 require "net/smtp" 
 require "jcode"
+require "mogilefs"
 
 require "redcub/util"
+require "redcub/config"
 
 use_orm :datamapper
 use_test :rspec

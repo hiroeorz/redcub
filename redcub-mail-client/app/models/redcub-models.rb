@@ -1,3 +1,4 @@
+require "redcub/model/model"
 require "redcub/model/localqueue"
 require "redcub/model/sendqueue"
 require "redcub/model/address"
