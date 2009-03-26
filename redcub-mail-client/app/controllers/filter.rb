@@ -1,4 +1,5 @@
 class Filter < Application
+  include RedCub
 
   def new
     @filter = RedCub::Model::Filter.new
@@ -8,6 +9,35 @@ class Filter < Application
 
 
   def save
+    if params[:id].nil?
+      filter = Model::Filter.new
+    else
+      filter = Model::Filter.first(:id => params[:id])
+    end
 
+    filter_data = params["red_cub::model::filter"]
+
+    filter.user_id = session.user.id
+    filter.exec_no = next_filter_no
+    filter.name = filter_data[:name]
+    filter.target = filter_data[:target]
+    filter.keyword = filter_data[:keyword]
+    filter.save
+
+    ""
+  end
+
+  def delete
+    filter = Model::Filter.first(:id => params[:id])
+    filter.destroy
+    ""
+  end
+
+  private
+
+  def next_filter_no
+    filter = Model::Filter.first(:user_id => session.user.id,
+                                 :order => [:exec_no.desc])
+    return filter.exec_no + 1
   end
 end

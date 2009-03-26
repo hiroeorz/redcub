@@ -24,7 +24,7 @@ Mailer.prototype.displayHeader = function(mailID) {
   }
 }
 
-Mailer.prototype.updateMailList = function(filterName, state, id) {
+  Mailer.prototype.updateMailList = function(filterName, state, id) {
   
   /*** set default value if undefined***/
   if (filterName == undefined){filterName = this.filter;}
@@ -68,22 +68,10 @@ Mailer.prototype.returnMail = function(mailID) {
 }
 
 Mailer.prototype.sendmail = function(id) {
-  var param = $("#" + id).serialize();
-  $.post("/edit/sendmail", param, function() {alert("送信しました")});
 }
 
-  Mailer.prototype.createNewFilter = function(id, url, thumbnailID) {
-  var obj = document.getElementById(id);
-  obj.href = url;
-
-  if (thumbnailID == undefined){thumbnailID = id}
-
-  return hs.htmlExpand(obj, {objectType: 'ajax',
-	                      cacheAjax: false,
- 	                      preservedContent: false,
-	                      width: 370,
-	                      height: 260,
-	                      thumbnailID: thumbnailID})
+Mailer.prototype.updateBoxList = function() {
+  $("#mailbox-list").load("/show/boxlist");
 }
 
 var mailer = new Mailer;

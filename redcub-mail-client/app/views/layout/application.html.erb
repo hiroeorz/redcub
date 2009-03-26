@@ -28,6 +28,9 @@
     <script type="text/javascript" 
 	    src="/javascripts/profile.js"></script>
 
+    <script type="text/javascript" 
+	    src="/javascripts/filter.js"></script>
+
     <script type="text/javascript">
       hs.graphicsDir = "/images/highslide/";
       hs.align = "center";
@@ -55,7 +58,8 @@
       
       window.onload = function() {
         //setInterval("mailer.updateMailList()", 10000);
-        new PopupMenu().setup();
+        //new PopupMenu().setup();
+        new RightClickMenu();
       }
     </script>
   </head>

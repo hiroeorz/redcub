@@ -1,32 +1,7 @@
 
-
 <div class="mailbox-list" id="mailbox-list">
-  <div class="mailbox-name mailbox-name-selected"
-       id="mailbox-name"
-       onclick="mailer.updateMailList('', undefined, this.id)">
-    <%= image_tag("home.png") %>受信箱
-  </div>
-
-  <% @filters.each do |f| -%>
-    <div class="mailbox-name" id="mailbox-name-<%= f.name %>"
-         onclick="mailer.updateMailList('<%= f.name%>', undefined, this.id)">
-      <%= image_tag("tray.png") %><%= f.name %>
-    </div>
-  <% end -%>
-
-  <div class="mailbox-name"
-       id="mailbox-name-sended"
-       onclick="mailer.updateMailList('sended', undefined, this.id)">
-    <%= image_tag("sended.png") %>送信済
-  </div>
-
-  <div class="mailbox-name"
-       id="mailbox-name-trash"
-       onclick="mailer.updateMailList('trash', undefined, this.id)">
-    <%= image_tag("trash_empty.png") %>ごみ箱
-  </div>
+  <%= partial :traylist%>
 </div>
-
 
 <div class="mailbox" id="mailbox">
   <a class="mail-menu-bottom" href="javascript:void(0)"

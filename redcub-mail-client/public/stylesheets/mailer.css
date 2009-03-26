@@ -215,3 +215,33 @@ a.mail-menu-bottom-selected {
   width: 365px;
   text-align: right;
 }
+
+.filter-title {
+  display: block;
+  float: left;
+  width: 100px;
+  text-align: right;
+  font-weight: bold;
+  margin: 0;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+
+.filter-value {
+  display: block;
+  float: left;
+  width: 200px;
+  text-align: left;
+  margin: 0;
+  margin-bottom: 5px;
+}
+
+.filter-value-field {
+  width: 200px;
+}
+
+#filter-edit h2 {
+  text-align: center;
+  margin: 0;
+  margin-bottom: 10px;
+}

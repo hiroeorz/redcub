@@ -20,6 +20,12 @@ class Show < Application
     partial :maillist
   end
 
+  def boxlist
+    @filters = Filter.all(:user_id => session.user.id,
+                          :order => [:id])
+    partial :traylist
+  end
+
   def delete
     @mail = Mail.first(:id => params[:id],
                        :user_id => session.user.id)
