@@ -3,7 +3,8 @@ module RedCub
     class Sendqueue < Model
       include DataMapper::Resource
 
-      after :save, :mogile_send_queue_stroe
+      before :save, :mogile_send_queue_stroe
+      after :destroy, :mogile_send_queue_delete
 
       storage_names[:default] = "sendqueues"
    
@@ -24,6 +25,10 @@ module RedCub
 
       def mogile_send_queue_stroe
         mogile_queue_store("sendqueue")
+      end
+
+      def mogile_send_queue_delete
+        mogile_queue_delete("sendqueue")
       end
     end
   end

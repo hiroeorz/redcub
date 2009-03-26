@@ -3,7 +3,8 @@ module RedCub
     class AttachedFile < Model
       include DataMapper::Resource
 
-      after :save, :mogile_store
+      before :save, :mogile_store
+      after :destroy, :mogile_delete
 
       storage_names[:default] = "attached_files"
 

@@ -3,7 +3,8 @@ module RedCub
     class Localqueue < Model
       include DataMapper::Resource
 
-      after :save, :mogile_local_queue_stroe
+      before :save, :mogile_local_queue_stroe
+      after :destroy, :mogile_local_queue_delete
 
       storage_names[:default] = "localqueues"
    
@@ -24,6 +25,10 @@ module RedCub
 
       def mogile_local_queue_stroe
         mogile_queue_store("localqueue")
+      end
+
+      def mogile_local_queue_delete
+        mogile_queue_delete("localqueue")
       end
     end
   end
