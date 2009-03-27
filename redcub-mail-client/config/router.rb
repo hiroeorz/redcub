@@ -37,9 +37,9 @@ Merb::Router.prepare do
         :name_prefix => nil, 
         :path_prefix => "")
 
-  match("/show/list/:filter").
+  match("/show/list/:filter_id").
     to(:controller => "show", :action => "list")
-  match("/show/list_ajax/:filter").
+  match("/show/list_ajax/:filter_id").
     to(:controller => "show", :action => "list_ajax")
 
   # This is the default route for /:controller/:action/:id

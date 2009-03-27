@@ -7,12 +7,11 @@ Filter.prototype = {
   },
 
  save: function(id) {
-    alert(id);
     var param = $(id).serialize();
-    alert($(id))
 
     $.post("/filter/save", param, function(data, state) {
 	alert("設定しました");
+	mailer.updateBoxList();
       })
   },
 

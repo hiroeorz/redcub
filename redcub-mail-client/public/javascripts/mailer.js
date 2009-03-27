@@ -2,7 +2,7 @@
 function Mailer(){
   this.headerDisplayFlags = new Object;
   this.targetMailState = [0, 1];
-  this.filter = "";
+  this.filterID = 0;
   this.selectedMailbox = "mailbox-name";
 }
 
@@ -24,11 +24,11 @@ Mailer.prototype.displayHeader = function(mailID) {
   }
 }
 
-  Mailer.prototype.updateMailList = function(filterName, state, id) {
+  Mailer.prototype.updateMailList = function(filterID, state, id) {
   
   /*** set default value if undefined***/
-  if (filterName == undefined){filterName = this.filter;}
-  this.filter = filterName;
+  if (filterID == undefined){filterID = this.filterID;}
+  this.filterID = filterID;
 
   if (state == undefined){state = this.targetMailState;}
   this.targetMailState = state;
@@ -52,7 +52,7 @@ Mailer.prototype.displayHeader = function(mailID) {
     $("#yet-read-bottom").css("display", "block")
   }
 
-  $("#mailList").load("/show/list_ajax/" + filterName, 
+  $("#mailList").load("/show/list_ajax/" + filterID, 
                       {state : state.join(",")})
 }
 

@@ -48,20 +48,13 @@ class Show < Application
 
   def get_mails
     @pageNo = params[:pageNo]
-    @filter_name = params[:filter]
+    @filter_id = params[:filter_id]
 
-    @filter = Filter.first(:name => @filter_name)
+    @filter = Filter.get(@filter_id)
 
     if @filter.nil?
       @filter = Filter.new
-      @filter.id = 0
-
-      case @filter_name
-      when "trash"
-        @filter.id = -1
-      when "sended"
-        @filter.id = -2
-      end
+      @filter.id = @filter_id.to_i
     end
 
     if params[:state].nil?

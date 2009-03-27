@@ -14,22 +14,27 @@ class Filter < Application
     else
       filter = Model::Filter.first(:id => params[:id])
     end
-
+    
     filter_data = params["red_cub::model::filter"]
-
+    
     filter.user_id = session.user.id
     filter.exec_no = next_filter_no
     filter.name = filter_data[:name]
     filter.target = filter_data[:target]
     filter.keyword = filter_data[:keyword]
-    filter.save
-
+    filter.save!
     ""
   end
 
   def delete
-    filter = Model::Filter.first(:id => params[:id])
-    filter.destroy
+    transaction do
+      filter = Model::Filter.first(:id => params[:id])
+      filter.destroy
+
+      mails = Model::Mail.all(:filter_id => params[:id])
+      mails.update!(:filter_id => 0)
+    end
+
     ""
   end
 
@@ -38,6 +43,10 @@ class Filter < Application
   def next_filter_no
     filter = Model::Filter.first(:user_id => session.user.id,
                                  :order => [:exec_no.desc])
+    if filter.nil?
+      return 1
+    end
+
     return filter.exec_no + 1
   end
 end

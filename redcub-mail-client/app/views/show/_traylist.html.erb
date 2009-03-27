@@ -1,6 +1,6 @@
   <div class="mailbox-name mailbox-name-selected"
        id="mailbox-name"
-       onclick="mailer.updateMailList('', undefined, this.id)">
+       onclick="mailer.updateMailList(0, undefined, this.id)">
     <%= image_tag("home.png") %>受信箱
   </div>
 
@@ -10,7 +10,7 @@
 
   <% @filters.each do |f| -%>
     <div class="mailbox-name" id="mailbox-name-<%= f.name %>"
-         onclick="mailer.updateMailList('<%= f.name%>', undefined, this.id)"
+         onclick="mailer.updateMailList(<%= f.id%>, undefined, this.id)"
          filter_id="<%= f.id %>">
       <%= image_tag("tray.png") %><%= f.name %>
     </div>
@@ -22,12 +22,12 @@
 
   <div class="mailbox-name"
        id="mailbox-name-sended"
-       onclick="mailer.updateMailList('sended', undefined, this.id)">
+       onclick="mailer.updateMailList(-1, undefined, this.id)">
     <%= image_tag("sended.png") %>送信済
   </div>
 
   <div class="mailbox-name"
        id="mailbox-name-trash"
-       onclick="mailer.updateMailList('trash', undefined, this.id)">
+       onclick="mailer.updateMailList(-2, undefined, this.id)">
     <%= image_tag("trash_empty.png") %>ごみ箱
   </div>

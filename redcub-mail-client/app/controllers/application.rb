@@ -32,4 +32,25 @@ class Application < Merb::Controller
               :filename => file.filename,
               :type => file.filetype)
   end
+
+  def transaction
+    trs = DataMapper::Transaction.new(DataMapper.repository(:default))
+    trs.begin
+    DataMapper.repository(:default).adapter.push_transaction(trs)
+    aborted = false
+    
+    begin
+      yield
+    rescue Exception => e
+      DataMapper.repository(:default).adapter.pop_transaction
+      trs.rollback
+      aborted = true
+      raise e.class.new(e.message)
+    ensure
+      unless aborted
+        DataMapper.repository(:default).adapter.pop_transaction
+        trs.commit
+      end
+    end
+  end
 end
