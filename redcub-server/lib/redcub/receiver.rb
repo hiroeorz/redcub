@@ -13,6 +13,7 @@ module RedCub
       @error_interval = @config["smtpd"]["error_interval"]
       @max_size = @config["smtpd"]["max_size"].to_i * 1024 * 1024
 
+      @clamav_scanner = ClamAVScanner.new
       Syslog.info("receiver is ready.")
     end
     
@@ -20,6 +21,8 @@ module RedCub
       super
 
       loop do
+        @clamav_scanner.refresh_if_old
+
         Thread.start(@sock.accept) do |s|
           client_name = s.peeraddr[2]
           ipaddr = s.peeraddr[3].gsub(/::ffff:/, "")
@@ -33,6 +36,7 @@ module RedCub
             server.input_timeout = @input_timeout
             server.error_interval = @error_interval
             server.max_size = @max_size unless @max_size.zero?
+            server.clamav_scanner = @clamav_scanner
             server.start
           rescue Exception
             write_backtrace

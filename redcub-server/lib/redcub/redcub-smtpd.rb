@@ -1,6 +1,6 @@
 module RedCub
   class RedCubSMTPD < SMTPD
-    attr_accessor :client_name, :remote_addr
+    attr_accessor :client_name, :remote_addr, :clamav_scanner
 
     include Util
 
@@ -17,6 +17,8 @@ module RedCub
 
       @local_queue = Model::Localqueue.new
       @send_queue = Model::Sendqueue.new
+
+      @clamav_scanner = nil
 
       super(sock, domain)
     end
@@ -38,13 +40,25 @@ module RedCub
             raise error("550 Recipient address rejected.")
           end
 
+          tmail = get_tmail_object(data, @myhostname)
+
+          if @clamav_scanner.found_virus?(tmail.message_id, data)
+            Syslog.notice("VIRUS MAIL FOUND! messageID: #{tmail.message_id}")
+            Syslog.notice("#{tmail.message_id}: not delivered.")
+            return false
+          else
+            Syslog.debug("#{tmail.message_id}: no virus found")
+          end
+
           if @mydomains.include?(domain) and Model::User.exist?(name)
-            mail_id = save_queue(data, orig_to, :local)
+            mail_id = save_queue(tmail, orig_to, :local)
             Syslog.info("saved to local mail queue id=#{mail_id}")
           else
-            mail_id = save_queue(data, orig_to, :send)
+            mail_id = save_queue(tmail, orig_to, :send)
             Syslog.info("saved to send mail queue id=#{mail_id}")
           end
+
+          return true
         end
       rescue Exception
         write_backtrace
@@ -118,9 +132,7 @@ module RedCub
       return true
     end
 
-    def save_queue(data, orig_to, queue_type = :local)
-      tmail = get_tmail_object(data, @myhostname)
-      
+    def save_queue(tmail, orig_to, queue_type = :local)      
       case queue_type
       when :local
         queue = @local_queue

@@ -156,7 +156,8 @@ redcublib_DATA = config.rb \
 		  pop-server.rb \
                   sender.rb \
                   util.rb \
-                  daemon.rb
+                  daemon.rb \
+                  clamav-scanner.rb
 
 SUBDIRS = model
 all: all-recursive

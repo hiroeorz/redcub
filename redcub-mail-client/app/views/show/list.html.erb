@@ -1,58 +1,19 @@
 
 <div class="mailbox-list" id="mailbox-list">
-  <%= partial :traylist%>
+  <%= partial :traylist %>
 </div>
 
 <div class="mailbox" id="mailbox">
-  <a class="mail-menu-bottom" href="javascript:void(0)"
-       onclick="mailer.updateMailList('', [0, 1])">
-    <%= image_tag("download.png", :title => "取得") %>
-  </a>
 
-  <a class="mail-menu-bottom" href="/edit/new"
-       onclick="return hs.htmlExpand(this, {objectType: 'ajax',
-                                            cacheAjax: false,
-                                            preservedContent: false})">
-    <%= image_tag("newmail.png", :title => "新規作成") %>
-  </a>
-
-  <div class="highslide-heading">
-    新規作成
-  </div>
-
-  <a class="mail-menu-bottom" href="javascript:void(0)"
-     id="yet-read-bottom"
-       onclick="mailer.updateMailList(undefined, [0])">
-    <%= image_tag("notice.png", :title => "未読のみ") %>
-  </a>
-
-  <a class="mail-menu-bottom mail-menu-bottom-selected" 
-     href="javascript:void(0)"
-     id="all-read-bottom"
-       onclick="mailer.updateMailList(undefined, [0, 1])">
-    <%= image_tag("notice.png", :title => "全て表示") %>
-  </a>
-
-  <a class="mail-menu-bottom" href="/profile"
-       onclick="return hs.htmlExpand(this, {objectType: 'ajax',
-                                            cacheAjax: false,
-                                            preservedContent: false,
-                                            width: 370,
-                                            height: 260})">
-    <%= image_tag("profile.png", :title => "プロフィール") %>
-  </a>
-
-  <div class="highslide-heading">
-    プロフィール
+  <div class="mail-menu">
+    <%= partial :mailmenu %>
   </div>
 
   <div style="clear:both" ></div>
 
-
   <div id="mailList">
     <%= partial :maillist %>
   </div>
-
 
 </div>
 
