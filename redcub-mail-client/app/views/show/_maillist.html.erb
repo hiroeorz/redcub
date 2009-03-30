@@ -1,6 +1,7 @@
   <div class="highslide-gallery">
     <% @mails.each do |mail| -%>
-    <div class="<%= list_class(mail) %>" id="maillist-<%= mail.id %>">
+    <div class="<%= list_class(mail) %>" id="maillist-<%= mail.id %>"
+	 mail_id="<%= mail.id %>">
       <div class="mail-preview mail-preview-from">
         <% if mail.mail_from.name_part.nil? -%>
           <%= mail.mail_from.address_part %>
@@ -37,4 +38,22 @@
 
     <div style="clear:both;"></div>
     <% end %>
+
+
+  <div style="clear:both;"></div>
+  
+    <div id="page-selecter">
+
+      <% if @page_count > 1 %>
+        <a href="javascript:void(0)">&lt;&nbsp;前のページ</a>
+
+        <% for pageno in 1 .. @page_count %>
+          <a href="javascript:void(0)"
+             onclick="mailer.updateMailList(undefined, undefined, undefined, <%= pageno %>)"><%= pageno %></a>
+        <% end %>
+      
+        <a href="javascript:void(0)">次のページ&nbsp;&gt;</a>
+      <% end %>
+
+    </div>
   </div>

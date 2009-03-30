@@ -245,3 +245,24 @@ a.mail-menu-bottom-selected {
   margin: 0;
   margin-bottom: 10px;
 }
+
+#page-selecter {
+  display: block;
+  float: left;
+  padding: 4px;
+  border: none;
+  text-align: center;
+  margin: 0;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#page-selecter a {
+  background-color: #fea;
+  font-size: 12px;
+  font-weight: bold;
+  margin: 0;
+  margin-left: 3px;
+  margin-right: 3px;
+}
+

@@ -21,7 +21,11 @@ module RedCub
         mogile = MogileFS::MogileFS.new(:domain => mogile_domain, 
                                         :hosts => @@mogile_hosts)
 
-        mogile.store_content(self.id, "normal", @data)
+        file_size = mogile.store_content(self.id, "normal", @data)
+
+        if Syslog.opened?
+          Syslog.debug("attached file saved (domain=>#{mogile_domain}, key=>#{self.id})")
+        end
       end
 
       def mogile_delete

@@ -27,13 +27,13 @@ module RedCub
     end
 
     def get_message_body(tmail)
-      unless tmail.multipart?
-        return tmail.body
-      end
+      return tmail.body if !tmail.body.nil? and !tmail.body.empty?
 
       tmail.parts.each do |part|
-        if part.content_type == "text/plain" or
-            part.content_type == "text/html"
+        Syslog.debug("part content type: #{part.content_type}")
+
+        if ["text/plain", "text/html"].include?(part.content_type) and
+            ["7bit"].include?(part.content_transfer_encoding)
           return part.body
         end
       end
@@ -51,6 +51,8 @@ module RedCub
       tmail.parts.each do |part|
         case part.content_transfer_encoding
         when "base64", "x-uuencode"
+          next if part.disposition_param("filename").nil?
+
           decoded_filename = 
             Base64.decode_b(part.disposition_param("filename")).toutf8
 

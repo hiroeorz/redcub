@@ -37,10 +37,13 @@ Merb::Router.prepare do
         :name_prefix => nil, 
         :path_prefix => "")
 
-  match("/show/list/:filter_id").
-    to(:controller => "show", :action => "list")
-  match("/show/list_ajax/:filter_id").
-    to(:controller => "show", :action => "list_ajax")
+  match("/show/list(/:filter_id)(/:page_no)").
+    to(:controller => "show", :action => "list").
+    default(:filter_id => 0, :page_no => 1)
+
+  match("/show/list_ajax(/:filter_id)(/:page_no)").
+    to(:controller => "show", :action => "list_ajax").
+    default(:filter_id => 0, :page_no => 1)
 
   # This is the default route for /:controller/:action/:id
   # This is fine for most cases.  If you're heavily using resource-based

@@ -177,11 +177,11 @@ RightClickMenu.prototype = {
     
       boxListMenu.add("削除",  
 		  function(target) {
-		    return filter.delete(target.id)});
+		    return filter.del(target.id)});
 
       boxListMenu.bind(boxList[i]);
     }
-
+    
     var boxMenu = new PopupMenu();
     boxMenu.add("設定", 
 		function(target) {filter.modify(target.id)});
@@ -191,18 +191,20 @@ RightClickMenu.prototype = {
 		  return filter.create('mailbox-name', '/filter/new')});
     
     boxMenu.bind("mailbox-name")
-    
-    var maillistMenu = new PopupMenu();
-    maillistMenu.add("返信", 
-		     function() {mailer.returnMail(target.id)});
-    
-    maillistMenu.add("削除", function(target) {mailer.moveTrash(target.id)});
+
     
     var mailList = util.findID("maillist-");
-    
+
     for (i = 0; i < mailList.length; i++) {
+      var maillistMenu = new PopupMenu();
+      maillistMenu.add("返信", 
+		       function(target) {mailer.returnMail(target.id)});
+      
+      maillistMenu.add("削除", 
+		       function(target) {mailer.deleteMailByID(target.id)});
+
       maillistMenu.bind(mailList[i]);
-    }    
+      }  
     
     var trashMenu = new PopupMenu();
     trashMenu.add("ごみ箱を空にする", function(target) {mailer.clearTrash()});

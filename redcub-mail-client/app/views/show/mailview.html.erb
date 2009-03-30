@@ -16,6 +16,23 @@
 
   <div style="clear:both;" />
 
+  <% @attached_files.each do |file| %>
+    <% if Merb::Config["inline_data_type"].include?(file.filetype) %>
+      <%= link_to file.filename, 
+                  url(:controller => :attachedfile, 
+                      :action => :get,
+                      :id => file.id),
+                  :onclick => "return hs.expand(this,
+                                                {outlineType : 'glossy-dark',
+                                                 wrapperClassName : 'dark'})" %>
+      <br />
+    <% else %>
+      <%= link_to file.filename, url(:controller => :attachedfile, 
+                                     :action => :get,
+                                     :id => file.id) %><br />
+    <% end %>
+  <% end %>
+
   <hr />
 
   <div class="header-field" id="header-field-<%= @mail.id %>">

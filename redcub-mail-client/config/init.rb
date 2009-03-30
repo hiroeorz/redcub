@@ -33,6 +33,7 @@ Merb::Config.use do |c|
   c[:session_id_key] = '_redcub-mail-client_session_id' # cookie session id key, defaults to "_session_id"
 
   c["hostname"] = "eris.komatsuelec.co.jp"
+  c["inline_data_type"] = ["image/jpeg", "image/png", "image/gif"]
 end
  
 Merb::BootLoader.before_app_loads do

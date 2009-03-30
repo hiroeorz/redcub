@@ -15,7 +15,7 @@ Filter.prototype = {
       })
   },
 
- delete: function(id) {
+ del: function(id) {
     var filter_id = $("#" + id).attr("filter_id");
 
     $.post("/filter/delete/" + filter_id, {}, function(data, state) {

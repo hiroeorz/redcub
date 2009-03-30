@@ -22,12 +22,18 @@
 
   <div class="mailbox-name"
        id="mailbox-name-sended"
-       onclick="mailer.updateMailList(-1, undefined, this.id)">
+       onclick="mailer.updateMailList(-2, undefined, this.id)">
     <%= image_tag("sended.png") %>送信済
   </div>
 
   <div class="mailbox-name"
        id="mailbox-name-trash"
-       onclick="mailer.updateMailList(-2, undefined, this.id)">
+       onclick="mailer.updateMailList(-3, undefined, this.id)">
+    <%= image_tag("spam_box.png") %>スパム
+  </div>
+
+  <div class="mailbox-name"
+       id="mailbox-name-trash"
+       onclick="mailer.updateMailList(-1, undefined, this.id)">
     <%= image_tag("trash_empty.png") %>ごみ箱
   </div>

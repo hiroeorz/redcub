@@ -145,6 +145,7 @@ span.red {
   display: block;
   float: right;
   margin: 0;
+  margin-right: 10px;
   padding: 0;
   padding-right: 5px;
 }

@@ -25,6 +25,10 @@ module RedCub
             begin
 
               transaction do
+                File.open("/tmp/mail.txt", "wb") do |f|
+                  f.write(mail.data)
+                end
+
                 tmail = get_tmail_object(mail.data, @myhostname)
 
                 if tmail.from.nil?

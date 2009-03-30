@@ -70,7 +70,7 @@ module RedCub
     "local6" => Syslog::LOG_LOCAL6,
     "local7" => Syslog::LOG_LOCAL7,
     "local8" => Syslog::LOG_LOCAL2
-  }  
+  }
 end
 
 DataMapper.setup(:default, {
