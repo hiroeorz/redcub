@@ -31,19 +31,19 @@ case "$1" in
 	fi
 
 	echo -n "Starting redcub receiver..."
-	su - redcub -c '/usr/local/sbin/redcub-receiver --daemon'
+	su - redcub -c '/usr/local/sbin/redcub-receiver --daemon > /dev/null'
 	echo "done"
 
 	echo -n "Starting redcub sender..."
-	su - redcub -c '/usr/local/sbin/redcub-sender  --daemon'
+	su - redcub -c '/usr/local/sbin/redcub-sender  --daemon > /dev/null'
 	echo "done"
 
 	echo -n "Starting redcub deliver..."
-	su - redcub -c '/usr/local/sbin/redcub-deliver  --daemon'
+	su - redcub -c '/usr/local/sbin/redcub-deliver  --daemon > /dev/null'
 	echo "done"
 
 	echo -n "Starting redcub pop server..."
-	su - redcub -c '/usr/local/sbin/redcub-pop-server  --daemon'
+	su - redcub -c '/usr/local/sbin/redcub-pop-server  --daemon > /dev/null'
 	echo "done"
 
 	;;

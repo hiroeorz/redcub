@@ -1,34 +1,25 @@
 module RedCub
   module Model
-    class Sendqueue < Model
+    class Sendqueue < Queue
+      @@mogile_domain_type = "sendqueue"
+
       include DataMapper::Resource
 
-      before :save, :mogile_send_queue_stroe
-      after :destroy, :mogile_send_queue_delete
-
       storage_names[:default] = "sendqueues"
+
+      after :destroy, :mogile_queue_delete
    
-      property :message_id, String, :key => true
-      property :helo_name, String
-      property :mail_from, String
-      property :recipients, String
-      property :orig_to, String
+      property :id, Integer, :serial => true, :key => true
+      property :message_id, String, :nullable => false
+      property :helo_name, String, :nullable => false
+      property :mail_from, String, :nullable => false
+      property :recipients, String, :nullable => false
+      property :orig_to, String, :nullable => false
       property :receive_date, DateTime
+      property :lock_flg, Integer, :nullable => false, :default => 1
 
-      def data
-        return mogile_queue_read("sendqueue")
-      end
-
-      def data=(data)
-        @data = data
-      end
-
-      def mogile_send_queue_stroe
-        mogile_queue_store("sendqueue")
-      end
-
-      def mogile_send_queue_delete
-        mogile_queue_delete("sendqueue")
+      def mogile_domain_type
+        return @@mogile_domain_type
       end
     end
   end

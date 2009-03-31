@@ -5,6 +5,7 @@ module RedCub
       @@mogile_domain_key = @@config["mogilefs"]["domain"]
       @@mogile_hosts = @@config["mogilefs"]["hosts"]
 
+
       private
 
       def mogile_domain
@@ -24,45 +25,12 @@ module RedCub
         file_size = mogile.store_content(self.id, "normal", @data)
 
         if Syslog.opened?
-          Syslog.debug("attached file saved (domain=>#{mogile_domain}, key=>#{self.id})")
+          Syslog.debug("attached file saved (domain=>#{mogile_domain}, key=>#{self.id}, size=>#{file_size})")
         end
       end
 
       def mogile_delete
         mogile = MogileFS::MogileFS.new(:domain => mogile_domain, 
-                                        :hosts => @@mogile_hosts)
-        mogile.delete(self.id)
-      end
-
-      def mogile_queue_store(type)
-        begin
-          domain = "#{@@mogile_domain_key}.#{type}"
-          mogile = MogileFS::MogileFS.new(:domain => domain, 
-                                          :hosts => @@mogile_hosts)
-          
-          mogile.store_content(self.id, "normal", @data)
-        rescue MogileFS::Backend::UnregDomainError
-          setup_mogilefs_queue
-        end
-      end
-
-      def mogile_queue_read(type)
-        begin
-          domain = "#{@@mogile_domain_key}.#{type}"
-          
-          mogile = MogileFS::MogileFS.new(:domain => domain, 
-                                          :hosts => @@mogile_hosts)
-          return mogile.get_file_data(self.id)
-
-        rescue MogileFS::Backend::UnregDomainError
-          setup_mogilefs_queue
-        end
-      end
-
-      def mogile_queue_delete(type)
-        domain = "#{@@mogile_domain_key}.#{type}"
-        
-        mogile = MogileFS::MogileFS.new(:domain => domain, 
                                         :hosts => @@mogile_hosts)
         mogile.delete(self.id)
       end

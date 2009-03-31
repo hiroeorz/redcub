@@ -19,7 +19,8 @@ module RedCub
 
       loop do
         begin
-          mails = Model::Sendqueue.all(:order => [:receive_date])
+          mails = Model::Sendqueue.all(:lock_flg => 0,
+                                       :order => [:receive_date])
 
           mails.each do |mail|
             begin

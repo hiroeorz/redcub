@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 module RedCub
   module Util
     module_function
@@ -84,7 +85,17 @@ module RedCub
       message_id = nil
 
       tmail = TMail::Mail.parse(data)
+
       message_id = tmail.message_id
+      
+      # InvalidなDateで送ってくるメールはサーバの現在時刻を振り直す。
+      begin
+        tmail.date
+      rescue ArgumentError => e
+        if e.message =~ /time out of range/
+          tmail.date = Time.now
+        end
+      end
 
       if !message_id.nil? and !message_id.empty?
         return tmail

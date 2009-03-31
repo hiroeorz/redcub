@@ -6,27 +6,31 @@
 ###################################################################
 
 create table sendqueues (
-	message_id varchar(256) NOT NULL PRIMARY KEY,
+	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	message_id varchar(256) NOT NULL,
 	helo_name varchar(128) NOT NULL,
 	mail_from varchar(128) NOT NULL,
 	recipients varchar(512) NOT NULL,
 	orig_to varchar(128) NOT NULL,
-	receive_date DateTime)ENGINE=NDBCLUSTER;
+	receive_date DateTime,
+	lock_flg INTEGER NOT NULL DEFAULT 1)ENGINE=NDBCLUSTER;
 
 create table localqueues (
-	message_id varchar(256) NOT NULL PRIMARY KEY,
+	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+	message_id varchar(256) NOT NULL,
 	helo_name varchar(128) NOT NULL,
 	mail_from varchar(128) NOT NULL,
 	recipients varchar(512) NOT NULL,
 	orig_to varchar(128) NOT NULL,
-	receive_date DateTime)ENGINE=NDBCLUSTER;
+	receive_date DateTime,
+	lock_flg INTEGER NOT NULL DEFAULT 1)ENGINE=NDBCLUSTER;
 
 ###################################################################
 
 create table mails (
 	id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 	user_id INTEGER NOT NULL,
-	message_id VARCHAR(128) NOT NULL UNIQUE,
+	message_id VARCHAR(128) NOT NULL,
 	mail_from_id INTEGER NOT NULL,
 	filter_id INTEGER DEFAULT NULL,
 	receive_date DateTime,
@@ -46,7 +50,7 @@ alter tablespace maildatas_ts add datafile 'maildata_3.dat' engine ndb;
 create table datas(
        id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
        mail_id BIGINT NOT NULL,       
-       message_id VARCHAR(128) NOT NULL UNIQUE,
+       message_id VARCHAR(128) NOT NULL,
        receive_date DateTime,
        header TEXT,
        body TEXT)
@@ -55,7 +59,7 @@ create table datas(
 #create table datas(
 #       id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 #       mail_id BIGINT NOT NULL,
-#       message_id VARCHAR(128) NOT NULL UNIQUE,
+#       message_id VARCHAR(128) NOT NULL,
 #       data LONGBLOB,
 #       receive_date DateTime,
 #       subject VARCHAR(512),

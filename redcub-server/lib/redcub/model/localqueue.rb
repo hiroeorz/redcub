@@ -1,34 +1,25 @@
 module RedCub
   module Model
-    class Localqueue < Model
+    class Localqueue < Queue
+      @@mogile_domain_type = "localqueue"
+
       include DataMapper::Resource
 
-      before :save, :mogile_local_queue_stroe
-      after :destroy, :mogile_local_queue_delete
-
       storage_names[:default] = "localqueues"
+
+      after :destroy, :mogile_queue_delete
    
-      property :message_id, String, :key => true
-      property :helo_name, String
-      property :mail_from, String
-      property :recipients, String
-      property :orig_to, String
+      property :id, Integer, :serial => true, :key => true
+      property :message_id, String, :nullable => false
+      property :helo_name, String, :nullable => false
+      property :mail_from, String, :nullable => false
+      property :recipients, String, :nullable => false
+      property :orig_to, String, :nullable => false
       property :receive_date, DateTime
+      property :lock_flg, Integer, :nullable => false, :default => 1
 
-      def data
-        return mogile_queue_read("localqueue")
-      end
-
-      def data=(data)
-        @data = data
-      end
-
-      def mogile_local_queue_stroe
-        mogile_queue_store("localqueue")
-      end
-
-      def mogile_local_queue_delete
-        mogile_queue_delete("localqueue")
+      def mogile_domain_type
+        return @@mogile_domain_type
       end
     end
   end

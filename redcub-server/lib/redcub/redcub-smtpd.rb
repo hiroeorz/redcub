@@ -42,8 +42,10 @@ module RedCub
 
           tmail = get_tmail_object(data, @myhostname)
 
-          if @clamav_scanner.found_virus?(tmail.message_id, data)
-            Syslog.notice("VIRUS MAIL FOUND! messageID: #{tmail.message_id}")
+          virus_result = @clamav_scanner.found_virus?(tmail.message_id, data)
+
+          if virus_result
+            Syslog.notice("VIRUS MAIL FOUND! messageID: #{tmail.message_id}, virus_type: #{virus_result}")
             Syslog.notice("#{tmail.message_id}: not delivered.")
             return false
           else
@@ -147,7 +149,7 @@ module RedCub
       queue.orig_to = orig_to
       queue.receive_date = Time.now
       queue.data = tmail.encoded
-      queue.save
+      queue.save_queue
       
       return queue.id
     end

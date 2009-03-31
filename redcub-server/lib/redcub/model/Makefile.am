@@ -9,4 +9,5 @@ model_DATA	= model.rb \
                   mail-data.rb \
                   user.rb \
                   attached-file.rb \
-                  filter.rb
+                  filter.rb \
+                  queue.rb

@@ -14,12 +14,10 @@ module RedCub
     def start
       super
       
-      transaction = DataMapper::Transaction.new(Model::Localqueue, Model::Mail,
-                                                Model::MailData)
-
       loop do
         begin
-          mails = Model::Localqueue.all(:order => [:receive_date])
+          mails = Model::Localqueue.all(:lock_flg => 0,
+                                        :order => [:receive_date])
 
           mails.each do |mail|
             begin

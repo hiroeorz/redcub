@@ -40,6 +40,7 @@ require "redcub/pop-server"
 require "redcub/clamav-scanner"
 
 require "redcub/model/model"
+require "redcub/model/queue"
 require "redcub/model/localqueue"
 require "redcub/model/sendqueue"
 require "redcub/model/address"
