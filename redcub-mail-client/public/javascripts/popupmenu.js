@@ -198,7 +198,7 @@ RightClickMenu.prototype = {
     for (i = 0; i < mailList.length; i++) {
       var maillistMenu = new PopupMenu();
       maillistMenu.add("返信", 
-		       function(target) {mailer.returnMail(target.id)});
+		       function(target) {mailer.returnMailByID(target.id)});
       
       maillistMenu.add("削除", 
 		       function(target) {mailer.deleteMailByID(target.id)});

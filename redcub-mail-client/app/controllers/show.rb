@@ -45,6 +45,12 @@ class Show < Application
     render(:layout => false)
   end
 
+  def mail_body_only
+    @mail = Mail.first(:id => params[:id],
+                       :user_id => session.user.id)
+    @mail.mail_data.body
+  end
+
   def cleartrash
     transaction do
       mails = Mail.all(:filter_id => -1)

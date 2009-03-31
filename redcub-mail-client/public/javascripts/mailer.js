@@ -88,6 +88,11 @@ Mailer.prototype = {
     $("#mailview").load("/edit/return_mail/" + mailID)
   },
 
+ returnMailByID: function(id) {
+    var mail_id = $("#" + id).attr("mail_id");
+    this.returnMail(mailID);
+  },
+
  updateBoxList: function() {
     $("#mailbox-list").load("/show/boxlist", {}, 
 			    function(){new RightClickMenu()});
