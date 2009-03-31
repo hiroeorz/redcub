@@ -26,7 +26,10 @@ module RedCub
       end
     end
 
-    def found_virus?(messageID, data)
+    def found_virus?(tmail)
+      messageID = tmail.message_id
+      data = tmail.encoded
+
       path = File.join(@clamav_tmp_dir, messageID)
 
       

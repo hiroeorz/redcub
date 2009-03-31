@@ -31,19 +31,21 @@ module RedCub
       end
 
       begin
-        @recipients.each do |orig_to|
-          name = orig_to.split(/@/)[0]
-          domain = orig_to.split(/@/)[1]
-
+        @recipients.each do |rcpt_to|
+          name = rcpt_to.split(/@/)[0]
+          domain = rcpt_to.split(/@/)[1]
+          
+          Syslog.info("distributioning mail (#{@sender} -> #{rcpt_to})")
+          
           if @mydomains.include?(domain) and !Model::User.exist?(name) and
               @domain_parent_host.nil?
             raise error("550 Recipient address rejected.")
           end
-
+          
           tmail = get_tmail_object(data, @myhostname)
-
-          virus_result = @clamav_scanner.found_virus?(tmail.message_id, data)
-
+          
+          virus_result = @clamav_scanner.found_virus?(tmail)
+          
           if virus_result
             Syslog.notice("VIRUS MAIL FOUND! messageID: #{tmail.message_id}, virus_type: #{virus_result}")
             Syslog.notice("#{tmail.message_id}: not delivered.")
@@ -51,17 +53,17 @@ module RedCub
           else
             Syslog.debug("#{tmail.message_id}: no virus found")
           end
-
+          
           if @mydomains.include?(domain) and Model::User.exist?(name)
-            mail_id = save_queue(tmail, orig_to, :local)
+            mail_id = save_queue(tmail, rcpt_to, :local)
             Syslog.info("saved to local mail queue id=#{mail_id}")
           else
-            mail_id = save_queue(tmail, orig_to, :send)
+            mail_id = save_queue(tmail, rcpt_to, :send)
             Syslog.info("saved to send mail queue id=#{mail_id}")
           end
-
-          return true
         end
+
+        return true
       rescue Exception
         write_backtrace
         raise MailReceiveError.new
@@ -134,7 +136,7 @@ module RedCub
       return true
     end
 
-    def save_queue(tmail, orig_to, queue_type = :local)      
+    def save_queue(tmail, rcpt_to, queue_type = :local)      
       case queue_type
       when :local
         queue = @local_queue
@@ -146,7 +148,7 @@ module RedCub
       queue.helo_name = @helo_name
       queue.mail_from = @sender.toutf8
       queue.recipients = @recipients.join(",").toutf8
-      queue.orig_to = orig_to
+      queue.orig_to = rcpt_to
       queue.receive_date = Time.now
       queue.data = tmail.encoded
       queue.save_queue
