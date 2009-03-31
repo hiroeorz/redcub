@@ -14,6 +14,7 @@ module RedCub
       property :state, Integer, :nullable => false, :default => 0
       property :subject, String, :default => ""
       property :body_part, String, :default => ""
+      property :mail_type, Integer, :nullable => false, :default => 0
 
       belongs_to :user, 
                  :class_name => "User", 
@@ -34,8 +35,26 @@ module RedCub
       has n, :attached_files,
              :class_name => "AttachedFile"
 
+
+      attr_reader :content_type
+
       def readed?
         return !self.state.zero?
+      end
+
+      def html_mail?
+        return !self.mail_type.zero?
+      end
+
+      def content_type=(type)
+        case type
+        when "text/html"
+          self.mail_type = 1
+        else
+          self.mail_type = 0
+        end
+
+        @content_type = type
       end
       
       def readed=(flag)

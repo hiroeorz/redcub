@@ -28,18 +28,43 @@ module RedCub
     end
 
     def get_message_body(tmail)
-      return tmail.body if !tmail.body.nil? and !tmail.body.empty?
+      unless tmail.multipart?
+        return tmail.body.toutf8, tmail.content_type
+      end
 
-      tmail.parts.each do |part|
-        Syslog.debug("part content type: #{part.content_type}")
+      if ["multipart/related", 
+          "multipart/alternative"].include?(tmail.content_type)
+        
+        html_body = nil
+        text_body = nil
 
-        if ["text/plain", "text/html"].include?(part.content_type) and
-            ["7bit"].include?(part.content_transfer_encoding)
-          return part.body
+        tmail.each_part do |part|
+          case part.content_type
+          when "text/plain"
+            text_body = part.body
+          when "text/html"
+            html_body = part.body
+          end
+        end
+
+        unless html_body.nil?
+          return html_body, "text/html"
+        end
+
+        unless text_body.nil?
+          return text_body, "text/plain"
         end
       end
 
-      return "\r\n"
+      tmail.parts.each do |part|
+        if ["text/plain", "text/html"].include?(part.content_type) and
+            ["7bit"].include?(part.content_transfer_encoding)
+          Syslog.debug("part content type: #{part.content_type}")
+          return part.body.toutf8, part.content_type
+        end
+      end
+
+      return "\r\n", "text/plain"
     end
 
     def get_attached_files(user_id, tmail)

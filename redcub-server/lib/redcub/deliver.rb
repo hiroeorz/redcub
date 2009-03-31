@@ -45,7 +45,9 @@ module RedCub
                 end
 
                 mail_data = Model::MailData.new
-                body = get_message_body(tmail).toutf8
+                body, content_type = get_message_body(tmail)
+                Syslog.debug("mail_type: #{content_type}")
+
                 mail_data.message_id = tmail.message_id
                 mail_data.receive_date = mail.receive_date
                 mail_data.header = header
@@ -61,6 +63,7 @@ module RedCub
                 new_mail.attached_files = get_attached_files(user_id, tmail)
                 new_mail.subject = tmail.subject.toutf8
                 new_mail.body_part = get_string_part(body)
+                new_mail.content_type = content_type
                 
                 new_mail.save
 

@@ -32,7 +32,7 @@ module RedCub
         data = {}
 
         data[:subject] = tmail.subject.toutf8
-        data[:body] = RedCub::Util.get_message_body(tmail).toutf8
+        data[:body], = RedCub::Util.get_message_body(tmail)
         data[:from] = tmail.from.to_s.toutf8
 
         tmail.each_header do |key, value|
@@ -52,7 +52,7 @@ module RedCub
         data = {}
 
         data[:subject] = tmail.subject.toutf8
-        data[:body] = RedCub::Util.get_message_body(tmail).toutf8
+        data[:body], = RedCub::Util.get_message_body(tmail)
         data[:from] = tmail.from.to_s.toutf8
 
         tmail.each_header do |key, value|

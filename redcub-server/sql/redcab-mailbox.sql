@@ -36,7 +36,8 @@ create table mails (
 	receive_date DateTime,
 	state INTEGER NOT NULL DEFAULT 0,
 	subject VARCHAR(256) DEFAULT '',
-        body_part VARCHAR(128) DEFAULT '')
+        body_part VARCHAR(128) DEFAULT '',
+	mail_type INTEGER NOT NULL DEFAULT 0)
 	ENGINE=NDBCLUSTER;
 
 ###################################################################
