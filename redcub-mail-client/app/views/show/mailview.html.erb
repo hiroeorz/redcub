@@ -17,7 +17,7 @@
   <div style="clear:both;" />
 
   <% @attached_files.each do |file| %>
-    <% if Merb::Config["inline_data_type"].include?(file.filetype) %>
+    <% if Merb::Config[:inline_data_type].include?(file.filetype) %>
       <%= link_to file.filename, 
                   url(:controller => :attachedfile, 
                       :action => :get,

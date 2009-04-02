@@ -37,35 +37,23 @@ create table mails (
 	state INTEGER NOT NULL DEFAULT 0,
 	subject VARCHAR(256) DEFAULT '',
         body_part VARCHAR(128) DEFAULT '',
+        header TEXT,
 	mail_type INTEGER NOT NULL DEFAULT 0)
 	ENGINE=NDBCLUSTER;
 
 ###################################################################
 
-create tablespace maildatas_ts add datafile 'maildata.dat'
-	use logfile group lg_1 engine ndb;
-alter tablespace maildatas_ts add datafile 'maildata_1.dat' engine ndb;
-alter tablespace maildatas_ts add datafile 'maildata_2.dat' engine ndb;
-alter tablespace maildatas_ts add datafile 'maildata_3.dat' engine ndb;
+#create tablespace maildatas_ts add datafile 'maildata.dat'
+#	use logfile group lg_1 engine ndb;
+#alter tablespace maildatas_ts add datafile 'maildata_1.dat' engine ndb;
+#alter tablespace maildatas_ts add datafile 'maildata_2.dat' engine ndb;
+#alter tablespace maildatas_ts add datafile 'maildata_3.dat' engine ndb;
 
 create table datas(
        id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
        mail_id BIGINT NOT NULL,       
-       message_id VARCHAR(128) NOT NULL,
-       receive_date DateTime,
-       header TEXT,
-       body TEXT)
-       tablespace maildatas_ts storage disk ENGINE=NDB;
-
-#create table datas(
-#       id BIGINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-#       mail_id BIGINT NOT NULL,
-#       message_id VARCHAR(128) NOT NULL,
-#       data LONGBLOB,
-#       receive_date DateTime,
-#       subject VARCHAR(512),
-#       body TEXT)
-#       ENGINE=NDBCLUSTER;
+       header TEXT)
+       ENGINE=NDBCLUSTER;
 
 ###################################################################
 

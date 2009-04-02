@@ -15,6 +15,7 @@ module RedCub
       property :subject, String, :default => ""
       property :body_part, String, :default => ""
       property :mail_type, Integer, :nullable => false, :default => 0
+      property :header, Object
 
       belongs_to :user, 
                  :class_name => "User", 
@@ -28,15 +29,14 @@ module RedCub
                  :class_name => "Filter", 
                  :child_key => [:filter_id]
 
-      has 1, :mail_data,
-             :class_name => "MailData"
-
-
       has n, :attached_files,
              :class_name => "AttachedFile"
 
 
       attr_reader :content_type
+
+      after :save, :mogile_store
+      after :destroy, :mogile_delete
 
       def readed?
         return !self.state.zero?
@@ -93,6 +93,18 @@ module RedCub
         self.save!
 
         return true
+      end
+
+      def mogile_domain
+        return "#{@@mogile_domain_key}.mailbody.#{self.user_id}"
+      end
+
+      def body
+        return mogile_read
+      end
+
+      def body=(data)
+        @data = data
       end
     end
   end

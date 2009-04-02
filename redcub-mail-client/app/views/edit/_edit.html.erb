@@ -1,5 +1,5 @@
   <a class="mail-menu-bottom" href="javascript:void(0)"
-       onclick="mailer.sendmail('mail_edit')">
+       onclick="mailer.sendmail('mail-edit')">
     <%= image_tag("upload.png", :title => "送信") %>
   </a>
 
@@ -8,7 +8,7 @@
   <hr />
 
   <div class="mail-body">
-    <form id="mail_edit">
+    <form id="mail-edit">
       <div class="edit_elem_name">送信先:</div>
         <%= text_field :to, :class => :to_edit_area, :id => :to,
                        :value => @to %>

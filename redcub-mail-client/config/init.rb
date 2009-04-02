@@ -4,7 +4,8 @@ require 'config/dependencies.rb'
 
 require "tmail"
 require "order-hash"
-require "net/smtp" 
+require "net/smtp"
+require "syslog"
 require "jcode"
 require "mogilefs"
 
@@ -32,21 +33,18 @@ Merb::Config.use do |c|
   c[:session_secret_key]  = '57f2e643d2296ed0bd3c7cdb84fbe8446caa4eb5'  # required for cookie session store
   c[:session_id_key] = '_redcub-mail-client_session_id' # cookie session id key, defaults to "_session_id"
 
-  c["hostname"] = "eris.komatsuelec.co.jp"
-  c["inline_data_type"] = ["image/jpeg", "image/png", "image/gif"]
+  c[:hostname] = "eris.komatsuelec.co.jp"
+  c[:inline_data_type] = ["image/jpeg", "image/png", "image/gif"]
+
+  c[:mailer] = {
+    :host => "127.0.0.1",
+    :port => 20025
+  }
 end
  
 Merb::BootLoader.before_app_loads do
   # This will get executed after dependencies have been loaded but before your app's classes have loaded.
 
-  Merb::Mailer.config = {
-    :host   => 'localhost',
-    :port   => '10025',
-    :domain => "eris.komatsuelec.co.jp",
-    :user   => '',
-    :pass   => '',
-    :auth   => :plain
-  }
 end
  
 Merb::BootLoader.after_app_loads do

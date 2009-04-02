@@ -63,6 +63,16 @@ module RedCub
                                         :hosts => @@mogile_hosts)
         mogile.delete(self.id)
       end
+
+      def setup_mogilefs_queue
+        mogadm = MogileFS::Admin.new(:hosts => @@mogile_hosts)
+
+        mogadm.create_domain("#{@@mogile_domain_key}.sendqueue")
+        mogadm.create_class("#{@@mogile_domain_key}.sendqueue", "normal", 2)
+
+        mogadm.create_domain("#{@@mogile_domain_key}.localqueue")
+        mogadm.create_class("#{@@mogile_domain_key}.localqueue", "normal", 2)
+      end
     end
   end
 end

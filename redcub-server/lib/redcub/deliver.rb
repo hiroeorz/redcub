@@ -44,14 +44,8 @@ module RedCub
                   header[key] = Base64.decode_b(value.to_s).toutf8
                 end
 
-                mail_data = Model::MailData.new
                 body, content_type = get_message_body(tmail)
                 Syslog.debug("mail_type: #{content_type}")
-
-                mail_data.message_id = tmail.message_id
-                mail_data.receive_date = mail.receive_date
-                mail_data.header = header
-                mail_data.body = body
                 
                 new_mail = Model::Mail.new
                 new_mail.user_id = user_id
@@ -59,11 +53,13 @@ module RedCub
                 new_mail.mail_from_id = from_id
                 new_mail.filter_id = filter_id
                 new_mail.receive_date = mail.receive_date
-                new_mail.mail_data = mail_data
-                new_mail.attached_files = get_attached_files(user_id, tmail)
                 new_mail.subject = tmail.subject.toutf8
                 new_mail.body_part = get_string_part(body)
                 new_mail.content_type = content_type
+
+                new_mail.body = body
+                new_mail.header = header
+                new_mail.attached_files = get_attached_files(user_id, tmail)
                 
                 new_mail.save
 

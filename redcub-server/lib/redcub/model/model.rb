@@ -3,29 +3,43 @@ module RedCub
     class Model
       @@config = RedCub::Config.instance
       @@mogile_domain_key = @@config["mogilefs"]["domain"]
-      @@mogile_hosts = @@config["mogilefs"]["hosts"]
 
+      @@mogile_hosts = @@config["mogilefs"]["hosts"]
 
       private
 
       def mogile_domain
-        return "#{@@mogile_domain_key}.#{self.user_id}"
+        raise "subclass must override this method!"
       end
 
       def mogile_read
-        mogile = MogileFS::MogileFS.new(:domain => mogile_domain, 
-                                        :hosts => @@mogile_hosts)
-        return mogile.get_file_data(self.id)
+        begin
+          mogile = MogileFS::MogileFS.new(:domain => mogile_domain, 
+                                          :hosts => @@mogile_hosts)
+          return mogile.get_file_data(self.id)
+        rescue MogileFS::Backend::UnregDomainError
+          setup_mogilefs
+          sleep(1)
+          retry
+        end
       end
       
-      def mogile_store
-        mogile = MogileFS::MogileFS.new(:domain => mogile_domain, 
-                                        :hosts => @@mogile_hosts)
+      def mogile_store(level = :normal)
+        return if @data.nil?
 
-        file_size = mogile.store_content(self.id, "normal", @data)
-
-        if Syslog.opened?
-          Syslog.debug("attached file saved (domain=>#{mogile_domain}, key=>#{self.id}, size=>#{file_size})")
+        begin
+          mogile = MogileFS::MogileFS.new(:domain => mogile_domain, 
+                                          :hosts => @@mogile_hosts)
+          
+          file_size = mogile.store_content(self.id, level.to_s, @data)
+          
+          if Syslog.opened?
+            Syslog.debug("mogile file saved (domain=>#{mogile_domain}, key=>#{self.id}, size=>#{file_size})")
+          end
+        rescue MogileFS::Backend::UnregDomainError
+          setup_mogilefs
+          sleep(1)
+          retry
         end
       end
 
@@ -36,23 +50,10 @@ module RedCub
       end
 
       def setup_mogilefs
-        data_count = AttachedFile.count(:user_id => self.user_id)
-        return if data_count > 1
-
         mogadm = MogileFS::Admin.new(:hosts => @@mogile_hosts)
         mogadm.create_domain(mogile_domain)
         mogadm.create_class(mogile_domain, "normal", 2)
         mogadm.create_class(mogile_domain, "important", 3)
-      end
-
-      def setup_mogilefs_queue
-        mogadm = MogileFS::Admin.new(:hosts => @@mogile_hosts)
-
-        mogadm.create_domain("#{@@mogile_domain_key}.sendqueue")
-        mogadm.create_class("#{@@mogile_domain_key}.sendqueue", "normal", 2)
-
-        mogadm.create_domain("#{@@mogile_domain_key}.localqueue")
-        mogadm.create_class("#{@@mogile_domain_key}.localqueue", "normal", 2)
       end
     end
   end

@@ -3,9 +3,6 @@ module RedCub
     class AttachedFile < Model
       include DataMapper::Resource
 
-      after :save, :mogile_store
-      after :destroy, :mogile_delete
-
       storage_names[:default] = "attached_files"
 
       property :id, Integer, :serial => true
@@ -16,6 +13,13 @@ module RedCub
       property :filesize, Integer, :nullable => false, :default => 0
 
       belongs_to :mail
+
+      after :save, :mogile_store
+      after :destroy, :mogile_delete
+
+      def mogile_domain
+        return "#{@@mogile_domain_key}.attachedfile.#{self.user_id}"
+      end
 
       def file_data
         return mogile_read

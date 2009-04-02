@@ -38,8 +38,8 @@ class Show < Application
                        :user_id => session.user.id)
     @mail.readed = true
 
-    @header = @mail.mail_data.header
-    @body = @mail.mail_data.body
+    @header = @mail.header
+    @body = @mail.body
     @attached_files = @mail.attached_files
 
     render(:layout => false)
@@ -48,7 +48,7 @@ class Show < Application
   def mail_body_only
     @mail = Mail.first(:id => params[:id],
                        :user_id => session.user.id)
-    @mail.mail_data.body
+    @mail.mail.body
   end
 
   def cleartrash
@@ -65,11 +65,9 @@ class Show < Application
       
       Merb.logger.debug("id_array=[#{id_array.join(',')}]")
 
-      datas = MailData.all(:mail_id => id_array)
       attached_files = AttachedFile.all(:mail_id => id_array)
 
       mails.destroy! unless mails.nil?
-      datas.destroy!
       attached_files.destroy!
     end
 

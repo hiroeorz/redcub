@@ -106,6 +106,15 @@ Mailer.prototype = {
 	     if (filterID == -1) {mailer.updateMailList();}
 	     new RightClickMenu();
 	   });
+  },
+ 
+ sendmail: function(id) {
+    var params = $("#" + id).serialize();
+
+    $.post("/edit/sendmail", params, 
+	   function(data, state){
+	     alert("メールを送信しました。");
+	   })
   }
 }
 

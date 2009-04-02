@@ -4,7 +4,7 @@ module RedCub
     module_function
 
     def write_backtrace
-      Syslog.err(format("%s: %s", $!.class, $!.message))
+      Syslog.err("%s: %s", $!.class, $!.message)
       Syslog.err("backtrace:")
       for line in $!.backtrace
         Syslog.err(line)
@@ -34,35 +34,49 @@ module RedCub
 
       if ["multipart/related", 
           "multipart/alternative"].include?(tmail.content_type)
+          
         
         html_body = nil
         text_body = nil
 
         tmail.each_part do |part|
-          case part.content_type
-          when "text/plain"
-            text_body = part.body
-          when "text/html"
-            html_body = part.body
+          if ["7bit", "base64", 
+              "Quoted-printable"].include?(part.content_transfer_encoding)
+
+            case part.content_type
+            when "text/plain"
+              text_body = part.body
+
+              if part.content_transfer_encoding == "Quoted-printable"
+                text_body = text_body.unpack("M*")[0]
+              end
+
+            when "text/html"
+              html_body = part.body
+
+              if part.content_transfer_encoding == "Quoted-printable"
+                html_body = html_body.unpack("M*")[0]
+              end
+            end
           end
         end
 
-        unless html_body.nil?
-          return html_body, "text/html"
-        end
-
         unless text_body.nil?
-          return text_body, "text/plain"
+          return text_body.toutf8, "text/plain"
+        end
+
+        unless html_body.nil?
+          return html_body.toutf8, "text/html"
         end
       end
 
-      tmail.parts.each do |part|
-        if ["text/plain", "text/html"].include?(part.content_type) and
-            ["7bit"].include?(part.content_transfer_encoding)
-          Syslog.debug("part content type: #{part.content_type}")
-          return part.body.toutf8, part.content_type
-        end
-      end
+#      tmail.parts.each do |part|
+#        if ["text/plain", "text/html"].include?(part.content_type) and
+#            ["7bit"].include?(part.content_transfer_encoding)
+#          Syslog.debug("part content type: #{part.content_type}")
+#          return part.body.toutf8, part.content_type
+#        end
+#      end
 
       return "\r\n", "text/plain"
     end
