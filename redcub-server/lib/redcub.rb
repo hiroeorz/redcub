@@ -23,6 +23,7 @@ require "base64"
 require "zlib"
 require "clamav"
 require "ftools"
+require "sanitize"
 
 require "smtpd"
 require "popd"

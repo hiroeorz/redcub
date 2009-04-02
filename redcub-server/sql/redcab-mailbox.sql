@@ -111,4 +111,7 @@ create table filters (
        keyword VARCHAR(256))
        ENGINE=NDBCLUSTER;
 
+alter table filters add column mail_count INTEGER NOT NULL DEFAULT 0;
+alter table filters add column unread_mail_count INTEGER NOT NULL DEFAULT 0;
+
 ###################################################################

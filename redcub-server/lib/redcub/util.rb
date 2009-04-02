@@ -70,13 +70,13 @@ module RedCub
         end
       end
 
-#      tmail.parts.each do |part|
-#        if ["text/plain", "text/html"].include?(part.content_type) and
-#            ["7bit"].include?(part.content_transfer_encoding)
-#          Syslog.debug("part content type: #{part.content_type}")
-#          return part.body.toutf8, part.content_type
-#        end
-#      end
+      tmail.parts.each do |part|
+        if ["text/plain", "text/html"].include?(part.content_type) and
+            ["7bit"].include?(part.content_transfer_encoding)
+          Syslog.debug("part content type: #{part.content_type}")
+          return part.body.toutf8, part.content_type
+        end
+      end
 
       return "\r\n", "text/plain"
     end
@@ -111,6 +111,7 @@ module RedCub
 
     def get_string_part(body, count = 64)
       str = ""
+      body = Sanitize.clean(body, Sanitize::Config::RESTRICTED)
 
       body.each_char do |c|
         str.concat(c)

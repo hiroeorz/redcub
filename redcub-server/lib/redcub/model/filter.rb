@@ -16,7 +16,8 @@ module RedCub
       property :name, String, :nullable => false
       property :target, String, :nullable => false
       property :keyword, String
-
+      property :mail_count, Integer, :nullable => false, :default => 0
+      property :unread_mail_count, Integer, :nullable => false, :default => 0
 
       has n, :mail,
              :class_name => "Mail"
@@ -68,6 +69,17 @@ module RedCub
         end
 
         return false
+      end
+
+      def Filter.update_mail_count(user_id)
+        filters = Filter.all(:user_id => user_id)
+
+        filters.each do |f|
+          f.mail_count = Mail.count(:filter_id => f.id)
+          f.unread_mail_count = Mail.count(:filter_id => f.id,
+                                           :state => 0)
+          f.save
+        end
       end
     end
   end

@@ -8,6 +8,7 @@ require "net/smtp"
 require "syslog"
 require "jcode"
 require "mogilefs"
+require "sanitize"
 
 require "redcub/util"
 require "redcub/config"

@@ -36,7 +36,9 @@ module RedCub
       attr_reader :content_type
 
       after :save, :mogile_store
+      after :save, :update_filter_mail_count
       after :destroy, :mogile_delete
+      after :destroy, :update_filter_mail_count
 
       def readed?
         return !self.state.zero?
@@ -105,6 +107,10 @@ module RedCub
 
       def body=(data)
         @data = data
+      end
+
+      def update_filter_mail_count
+        Filter.update_mail_count(self.user_id)
       end
     end
   end

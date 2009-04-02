@@ -12,7 +12,7 @@
     <div class="mailbox-name" id="mailbox-name-<%= f.name %>"
          onclick="mailer.updateMailList(<%= f.id%>, undefined, this.id)"
          filter_id="<%= f.id %>">
-      <%= image_tag("tray.png") %><%= f.name %>
+      <%= tray_image_tag(f) %><%= f.name %>(<%= f.unread_mail_count %>)
     </div>
 
     <div class="highslide-heading">

@@ -26,6 +26,7 @@ module RedCub
     def data_hook(data)
       Syslog.info("helo=#{@helo_name} from=#{@sender} to=#{@recipients.join(',')}")
 
+      # debug
       File.open("/tmp/mail.txt", "wb") do |f|
         f.write(data)
       end
@@ -35,7 +36,7 @@ module RedCub
           name = rcpt_to.split(/@/)[0]
           domain = rcpt_to.split(/@/)[1]
           
-          Syslog.info("distributioning mail (#{@sender} -> #{rcpt_to})")
+          Syslog.info("distributioning mail (#{@sender.gsub(/\%/, '%%')} -> #{rcpt_to.gsub(/\%/, '%%')})")
           
           if @mydomains.include?(domain) and !Model::User.exist?(name) and
               @domain_parent_host.nil?
@@ -48,10 +49,10 @@ module RedCub
           
           if virus_result
             Syslog.notice("VIRUS MAIL FOUND! messageID: #{tmail.message_id}, virus_type: #{virus_result}")
-            Syslog.notice("#{tmail.message_id}: not delivered.")
+            Syslog.notice("#{tmail.message_id.gsub(/\%/, '%%')}: not delivered.")
             return false
           else
-            Syslog.debug("#{tmail.message_id}: no virus found")
+            Syslog.debug("#{tmail.message_id.gsub(/\%/, '%%')}: no virus found")
           end
           
           if @mydomains.include?(domain) and Model::User.exist?(name)
@@ -159,15 +160,7 @@ module RedCub
     def error(msg)
       Syslog.err(msg)
       super(msg)
-    end
-    
-    def write_backtrace
-      Syslog.err(format("%s: %s", $!.class, $!.message))
-      Syslog.err("backtrace:")
-      for line in $!.backtrace
-        Syslog.info(line)
-      end
-    end
+    end    
   end
 
   class MailReceiveError < StandardError

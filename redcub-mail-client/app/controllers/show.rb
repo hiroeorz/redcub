@@ -39,7 +39,7 @@ class Show < Application
     @mail.readed = true
 
     @header = @mail.header
-    @body = @mail.body
+    @body = Sanitize.clean(@mail.body, Sanitize::Config::BASIC)
     @attached_files = @mail.attached_files
 
     render(:layout => false)

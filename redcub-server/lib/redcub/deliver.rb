@@ -23,6 +23,8 @@ module RedCub
             begin
 
               transaction do
+
+                # debug
                 File.open("/tmp/mail.txt", "wb") do |f|
                   f.write(mail.data)
                 end
@@ -66,7 +68,7 @@ module RedCub
                 mail.destroy
               end
               
-              Syslog.info("mail deliverd(Message-ID=#{mail.message_id}).")
+              Syslog.info("mail deliverd(Message-ID=#{mail.message_id.gsub(/\%/, '%%')}).")
               
             rescue Exception
               write_backtrace
