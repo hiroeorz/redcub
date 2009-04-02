@@ -6,7 +6,6 @@ model_DATA	= model.rb \
                   address.rb \
 	          host.rb \
                   mail.rb \
-                  mail-data.rb \
                   user.rb \
                   attached-file.rb \
                   filter.rb \
