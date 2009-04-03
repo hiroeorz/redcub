@@ -98,15 +98,20 @@ module RedCub
       end
 
       def mogile_domain
-        return "#{@@mogile_domain_key}.mailbody.#{self.user_id}"
+        return "#{@@mogile_domain_key}.maildata.#{self.user_id}"
       end
 
-      def body
+      def data
         return mogile_read
       end
 
-      def body=(data)
+      def data=(data)
         @data = data
+      end
+
+      def body
+        tmail = TMail::Mail.parse(mogile_read)
+        return RedCub::Util.get_message_body(tmail)[0]
       end
 
       def update_filter_mail_count

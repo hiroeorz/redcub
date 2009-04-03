@@ -59,7 +59,7 @@ module RedCub
                 new_mail.body_part = get_string_part(body)
                 new_mail.content_type = content_type
 
-                new_mail.body = body
+                new_mail.data = tmail.encoded
                 new_mail.header = header
                 new_mail.attached_files = get_attached_files(user_id, tmail)
                 

@@ -4,10 +4,12 @@ module RedCub
     module_function
 
     def write_backtrace
-      Syslog.err("%s: %s", $!.class, $!.message)
-      Syslog.err("backtrace:")
-      for line in $!.backtrace
-        Syslog.err(line)
+      if Syslog.opened?
+        Syslog.err("%s: %s", $!.class, $!.message)
+        Syslog.err("backtrace:")
+        for line in $!.backtrace
+          Syslog.err(line)
+        end
       end
     end
 
@@ -73,7 +75,11 @@ module RedCub
       tmail.parts.each do |part|
         if ["text/plain", "text/html"].include?(part.content_type) and
             ["7bit"].include?(part.content_transfer_encoding)
-          Syslog.debug("part content type: #{part.content_type}")
+
+          if Syslog.opened?
+            Syslog.debug("part content type: #{part.content_type}")
+          end
+
           return part.body.toutf8, part.content_type
         end
       end
