@@ -12,11 +12,11 @@ module RedCub
         raise "subclass must override this method!"
       end
 
-      def mogile_read
+      def mogile_read(key = self.id)
         begin
           mogile = MogileFS::MogileFS.new(:domain => mogile_domain, 
                                           :hosts => @@mogile_hosts)
-          return mogile.get_file_data(self.id)
+          return mogile.get_file_data(key)
         rescue MogileFS::Backend::UnregDomainError
           setup_mogilefs
           sleep(1)
@@ -24,17 +24,17 @@ module RedCub
         end
       end
       
-      def mogile_store(level = :normal)
+      def mogile_store(key = self.id, data = @data, level = :normal)
         return if @data.nil?
 
         begin
           mogile = MogileFS::MogileFS.new(:domain => mogile_domain, 
                                           :hosts => @@mogile_hosts)
           
-          file_size = mogile.store_content(self.id, level.to_s, @data)
+          file_size = mogile.store_content(key, level.to_s, data)
           
           if Syslog.opened?
-            Syslog.debug("mogile file saved (domain=>#{mogile_domain}, key=>#{self.id}, size=>#{file_size})")
+            Syslog.debug("mogile file saved (domain=>#{mogile_domain}, key=>#{key}, size=>#{file_size})")
           end
         rescue MogileFS::Backend::UnregDomainError
           setup_mogilefs

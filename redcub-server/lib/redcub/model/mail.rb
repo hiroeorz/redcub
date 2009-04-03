@@ -36,13 +36,10 @@ module RedCub
       attr_reader :content_type
 
       after :save, :mogile_store
+      after :save, :mogile_store_body
       after :save, :update_filter_mail_count
       after :destroy, :mogile_delete
       after :destroy, :update_filter_mail_count
-
-      def readed?
-        return !self.state.zero?
-      end
 
       def html_mail?
         return !self.mail_type.zero?
@@ -57,6 +54,10 @@ module RedCub
         end
 
         @content_type = type
+      end
+
+      def readed?
+        return !self.state.zero?
       end
       
       def readed=(flag)
@@ -101,6 +102,16 @@ module RedCub
         return "#{@@mogile_domain_key}.maildata.#{self.user_id}"
       end
 
+      def mogile_store_body
+        if @data.nil?
+          return
+        end
+
+        tmail = TMail::Mail.parse(@data)
+        body = RedCub::Util.get_message_body(tmail)[0]
+        mogile_store("#{self.id}.body", body)
+      end
+
       def data
         return mogile_read
       end
@@ -110,8 +121,14 @@ module RedCub
       end
 
       def body
-        tmail = TMail::Mail.parse(mogile_read)
-        return RedCub::Util.get_message_body(tmail)[0]
+        begin
+          return mogile_read("#{self.id}.body")
+        rescue  MogileFS::Backend::UnknownKeyError
+          tmail = TMail::Mail.parse(mogile_read)
+          body = RedCub::Util.get_message_body(tmail)[0]
+          mogile_store("#{self.id}.body", body)
+          return body
+        end
       end
 
       def update_filter_mail_count
