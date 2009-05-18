@@ -1,0 +1,39 @@
+<div id="filter-edit">
+  <h2>
+      <%= image_tag "tray.png", :alt => "フィルタ設定" %>
+      フィルタの追加
+  </h2>
+
+  <%= form_for(@filter, :action => url(:action => :save),
+                        :id => "filter-id") do -%>
+
+    <div class="filter-title">
+      名前
+    </div>
+    <div class="filter-value">
+      <%= text_field :name, :class => "filter-value-field" %>
+    </div>
+    <div style="clear:both"></div>
+
+    <div class="filter-title">
+      対象
+    </div>
+    <div class="filter-value">
+      <%= text_field :target, :class => "filter-value-field" %>
+    </div>
+    <div style="clear:both"></div>
+
+    <div class="filter-title">
+      キーワード
+    </div>
+    <div class="filter-value">
+      <%= text_field :keyword, :class => "filter-value-field" %>
+    </div>
+    <div style="clear:both"></div>
+
+  <% end =%>
+
+  <%= submit "設定", :onclick => "filter.save('#filter-id')" %>
+
+</div>
+
