@@ -14,7 +14,7 @@ class Profile < Application
   end
 
   def save
-    profile = params["red_cub::model::user"]
+    profile = params["user"]
     @user = User.first(:id => session.user.id)
     @user.name = @user.name
     @user.person_name = profile[:person_name]

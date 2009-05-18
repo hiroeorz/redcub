@@ -173,7 +173,8 @@ RightClickMenu.prototype = {
     
       boxListMenu.add("新しいフィルタを追加する", 
 		      function(target) {
-			return filter.create('mailbox-name', '/filter/new')});
+			return filter.create('mailbox-name', 
+					     '/mail_filter/new')});
     
       boxListMenu.add("削除",  
 		  function(target) {
@@ -188,7 +189,7 @@ RightClickMenu.prototype = {
     
     boxMenu.add("新しいフィルタを追加する", 
 		function(target) {
-		  return filter.create('mailbox-name', '/filter/new')});
+		  return filter.create('mailbox-name', '/mail_filter/new')});
     
     boxMenu.bind("mailbox-name")
 
