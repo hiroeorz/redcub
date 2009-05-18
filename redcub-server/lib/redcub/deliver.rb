@@ -16,8 +16,8 @@ module RedCub
       
       loop do
         begin
-          mails = Model::Localqueue.all(:lock_flg => 0,
-                                        :order => [:receive_date])
+          mails = Localqueue.all(:lock_flg => 0,
+                                 :order => [:receive_date])
 
           mails.each do |mail|
             begin
@@ -39,7 +39,7 @@ module RedCub
                 from_id = get_address_id(tmail)
                 user_id = get_user_id(user)
 
-                filter_id = Model::Filter.filter_id(tmail, user_id)
+                filter_id = Filter.filter_id(tmail, user_id)
                 
                 header = OrderHash.new
                 tmail.each_header do |key, value|
@@ -49,7 +49,7 @@ module RedCub
                 body, content_type = get_message_body(tmail)
                 Syslog.debug("mail_type: #{content_type}")
                 
-                new_mail = Model::Mail.new
+                new_mail = Mail.new
                 new_mail.user_id = user_id
                 new_mail.message_id = tmail.message_id
                 new_mail.mail_from_id = from_id

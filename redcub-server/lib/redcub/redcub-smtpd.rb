@@ -15,8 +15,8 @@ module RedCub
 
       @mynetworks = @config["mynetworks"]
 
-      @local_queue = Model::Localqueue.new
-      @send_queue = Model::Sendqueue.new
+      @local_queue = Localqueue.new
+      @send_queue = Sendqueue.new
 
       @clamav_scanner = nil
 
@@ -38,15 +38,19 @@ module RedCub
           
           Syslog.info("distributioning mail (#{@sender.gsub(/\%/, '%%')} -> #{rcpt_to.gsub(/\%/, '%%')})")
           
-          if @mydomains.include?(domain) and !Model::User.exist?(name) and
+          if @mydomains.include?(domain) and !User.exist?(name) and
               @domain_parent_host.nil?
             raise error("550 Recipient address rejected.")
           end
           
           tmail = get_tmail_object(data, @myhostname)
           
-          virus_result = @clamav_scanner.found_virus?(tmail)
-          
+          virus_result = false
+
+          if $clamav_loaded
+            virus_result = @clamav_scanner.found_virus?(tmail)
+          end
+
           if virus_result
             Syslog.notice("VIRUS MAIL FOUND! messageID: #{tmail.message_id}, virus_type: #{virus_result}")
             Syslog.notice("#{tmail.message_id.gsub(/\%/, '%%')}: not delivered.")
@@ -55,7 +59,7 @@ module RedCub
             Syslog.debug("#{tmail.message_id.gsub(/\%/, '%%')}: no virus found")
           end
           
-          if @mydomains.include?(domain) and Model::User.exist?(name)
+          if @mydomains.include?(domain) and User.exist?(name)
             mail_id = save_queue(tmail, rcpt_to, :local)
             Syslog.info("saved to local mail queue id=#{mail_id}")
           else

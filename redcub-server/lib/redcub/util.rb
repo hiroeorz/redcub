@@ -88,7 +88,7 @@ module RedCub
     end
 
     def get_attached_files(user_id, tmail)
-      unless tmail.multipart?
+      unless tmail.has_attachments?
         return []
       end
 
@@ -102,7 +102,7 @@ module RedCub
           decoded_filename = 
             Base64.decode_b(part.disposition_param("filename")).toutf8
 
-          attached_file = Model::AttachedFile.new
+          attached_file = AttachedFile.new
           attached_file.user_id = user_id
           attached_file.filename = decoded_filename
           attached_file.filetype = part.content_type
@@ -177,11 +177,11 @@ module RedCub
 
     def get_address_id(tmail)
       begin
-        if tmail.friendly_from == tmail.from
-          address = tmail.from
+        if tmail.friendly_from == tmail.from[0]
+          address = tmail.from[0]
           name_part = nil
         else
-          address = "#{tmail.friendly_from}<#{tmail.from}>".toutf8
+          address = "#{tmail.friendly_from}<#{tmail.from[0]}>".toutf8
           name_part = tmail.friendly_from.toutf8
         end
       rescue NoMethodError
@@ -189,13 +189,13 @@ module RedCub
         name_part = nil
       end
 
-      record = Model::Address.first(:value => address)
+      record = Address.first(:value => address)
       
       unless record.nil?
         return record.id
       end
 
-      record = Model::Address.new
+      record = Address.new
       record.value = address
       record.address_part = tmail.from
       record.name_part = name_part
@@ -204,7 +204,7 @@ module RedCub
     end
 
     def get_user_id(username)
-      user = Model::User.first(:name => username)
+      user = User.first(:name => username)
 
       if user.nil?
         raise ArgumentError.new("no such user '#{username}'")

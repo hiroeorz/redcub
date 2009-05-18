@@ -13,7 +13,13 @@ module RedCub
       @error_interval = @config["smtpd"]["error_interval"]
       @max_size = @config["smtpd"]["max_size"].to_i * 1024 * 1024
 
-      @clamav_scanner = ClamAVScanner.new
+
+      @clamav_scanner = nil
+
+      if $clamav_loaded
+        @clamav_scanner = ClamAVScanner.new
+      end
+
       Syslog.info("receiver is ready.")
     end
     
@@ -21,7 +27,9 @@ module RedCub
       super
 
       loop do
-        @clamav_scanner.refresh_if_old
+        if $clamav_loaded
+          @clamav_scanner.refresh_if_old
+        end
 
         Thread.start(@sock.accept) do |s|
           client_name = s.peeraddr[2]

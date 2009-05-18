@@ -8,6 +8,13 @@ begin
 rescue LoadError
 end
 
+$clamav_loaded = false
+begin
+  require "clamav"
+  $clamav_loaded = true
+rescue LoadError
+end
+
 require "socket"
 require "net/smtp"
 require "syslog"
@@ -21,7 +28,6 @@ require "dm-aggregates"
 require "mogilefs"
 require "base64"
 require "zlib"
-require "clamav"
 require "ftools"
 require "sanitize"
 
@@ -46,10 +52,10 @@ require "redcub/model/localqueue"
 require "redcub/model/sendqueue"
 require "redcub/model/address"
 require "redcub/model/host"
-require "redcub/model/mail"
 require "redcub/model/user"
 require "redcub/model/attached-file"
 require "redcub/model/filter"
+require "redcub/model/mail"
 
 module RedCub
   LOG_FACILITIES = {

@@ -19,7 +19,7 @@ module RedCub
 
       loop do
         begin
-          mails = Model::Sendqueue.all(:lock_flg => 0,
+          mails = Sendqueue.all(:lock_flg => 0,
                                        :order => [:receive_date])
 
           mails.each do |mail|
@@ -65,7 +65,7 @@ module RedCub
       name = to.split(/@/)[0]
       mx_name = to.split(/@/)[1]
 
-      if @mydomains.include?(mx_name) and !Model::User.exist?(name)
+      if @mydomains.include?(mx_name) and !User.exist?(name)
         servers = [@domain_parent_host]
       else
         if @relay_hosts.nil?
