@@ -1,7 +1,7 @@
 module RedCub
   class ClamAVScanner
     def initialize
-      @config = Config.instance
+      @config = RedCub::Config.instance
 
       reload_clamav
 

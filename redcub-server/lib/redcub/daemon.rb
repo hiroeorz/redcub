@@ -5,7 +5,7 @@ module RedCub
     attr_accessor :daemon, :pid_file
 
     def initialize(name)
-      @config = Config.instance
+      @config = RedCub::Config.instance
       @pid_file = @config["pid_file"][name]
       @daemon = false
 

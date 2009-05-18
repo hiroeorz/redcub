@@ -22,7 +22,7 @@ module RedCub
           mails.each do |mail|
             begin
 
-              transaction do
+              #transaction do
 
                 # debug
                 File.open("/tmp/mail.txt", "wb") do |f|
@@ -66,7 +66,7 @@ module RedCub
                 new_mail.save
 
                 mail.destroy
-              end
+              #end
               
               Syslog.info("mail deliverd(Message-ID=#{mail.message_id.gsub(/\%/, '%%')}).")
               

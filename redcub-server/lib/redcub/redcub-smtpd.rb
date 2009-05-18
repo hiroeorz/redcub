@@ -5,7 +5,7 @@ module RedCub
     include Util
 
     def initialize(sock, domain)
-      @config = Config.instance
+      @config = RedCub::Config.instance
       @myhostname = @config["myhostname"]
       @mydomains = @config["mydomains"]
       @domain_parent_host = @config["sender"]["domain_parent_host"]
@@ -49,14 +49,17 @@ module RedCub
 
           if $clamav_loaded
             virus_result = @clamav_scanner.found_virus?(tmail)
-          end
+          
 
-          if virus_result
-            Syslog.notice("VIRUS MAIL FOUND! messageID: #{tmail.message_id}, virus_type: #{virus_result}")
-            Syslog.notice("#{tmail.message_id.gsub(/\%/, '%%')}: not delivered.")
-            return false
+            if virus_result
+              Syslog.notice("VIRUS MAIL FOUND! messageID: #{tmail.message_id}, virus_type: #{virus_result}")
+              Syslog.notice("#{tmail.message_id.gsub(/\%/, '%%')}: not delivered.")
+              return false
+            else
+              Syslog.debug("#{tmail.message_id.gsub(/\%/, '%%')}: no virus found")
+            end
           else
-            Syslog.debug("#{tmail.message_id.gsub(/\%/, '%%')}: no virus found")
+              Syslog.debug("#{tmail.message_id.gsub(/\%/, '%%')}: virus scanner not available")
           end
           
           if @mydomains.include?(domain) and User.exist?(name)

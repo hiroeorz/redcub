@@ -58,7 +58,7 @@ class Filter < Model
       data[key] = value.to_s.toutf8
     end
     
-    config = Config.instance
+    config = RedCub::Config.instance
     
     config["spam"]["spam_merkers"].each do |key, value|
       next if value.nil?
