@@ -10,7 +10,7 @@ Merb::Plugins.config[:"merb-auth"][:password_param] = :password
 begin
   # Sets the default class ofr authentication.  This is primarily used for 
   # Plugins and the default strategies
-  Merb::Authentication.user_class = RedCub::Model::User 
+  Merb::Authentication.user_class = User 
   
   
   # Mixin the salted user mixin

@@ -73,7 +73,7 @@ class Edit < Application
     new_mail.sended = true
     new_mail.filter_id = -2 # send mail filter_id: -2
 
-    new_mail.body = params[:body].to_s
+    new_mail.data = tmail.encoded
     new_mail.header = header
 
     new_mail.save

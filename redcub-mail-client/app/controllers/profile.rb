@@ -1,6 +1,5 @@
 class Profile < Application
   include RedCub
-  include Model
 
   before :ensure_authenticated
 

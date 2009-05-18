@@ -9,6 +9,7 @@ require "syslog"
 require "jcode"
 require "mogilefs"
 require "sanitize"
+require "ftools"
 
 require "redcub/util"
 require "redcub/config"
@@ -16,6 +17,8 @@ require "redcub/config"
 use_orm :datamapper
 use_test :rspec
 use_template_engine :erb
+
+redcub_config = RedCub::Config.instance
  
 Merb::Config.use do |c|
   c[:use_mutex] = false
@@ -41,6 +44,8 @@ Merb::Config.use do |c|
     :host => "127.0.0.1",
     :port => 20025
   }
+
+  c[:bsfilter] = redcub_config["bsfilter"]
 end
  
 Merb::BootLoader.before_app_loads do

@@ -1,7 +1,7 @@
 # dependencies are generated using a strict version, don't forget to edit the dependency versions when upgrading.
-merb_gems_version = "1.0.9"
+merb_gems_version = "1.0.11"
 dm_gems_version   = "0.9.10"
-do_gems_version   = "0.9.11"
+do_gems_version   = "0.9.12"
 
 # For more information about each component, please read http://wiki.merbivore.com/faqs/merb_components
 dependency "merb-core", merb_gems_version 
@@ -32,3 +32,12 @@ dependency "dm-validations", dm_gems_version
 dependency "dm-serializer", dm_gems_version   
 
 dependency "merb_datamapper", merb_gems_version
+
+############################################################
+# user = User.new
+# user.name = "shin"
+# user.person_name = "HIROE"
+# user.mailaddress = "shin@komatsuelec.co.jp"
+# user.password = user.password_confirmation = "***"
+# user.save
+############################################################

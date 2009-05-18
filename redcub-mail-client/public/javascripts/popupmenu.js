@@ -203,6 +203,12 @@ RightClickMenu.prototype = {
       maillistMenu.add("削除", 
 		       function(target) {mailer.deleteMailByID(target.id)});
 
+      maillistMenu.add("スパムを報告する", 
+		       function(target) {mailer.addBlackList(target.id)});
+
+      maillistMenu.add("無実を報告する", 
+		       function(target) {mailer.addWhiteList(target.id)});
+
       maillistMenu.bind(mailList[i]);
       }  
     

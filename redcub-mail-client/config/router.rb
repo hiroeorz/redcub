@@ -25,7 +25,7 @@
 # You can also use regular expressions, deferred routes, and many other options.
 # See merb/specs/merb/router.rb for a fairly complete usage sample.
 
-Merb::Authentication.user_class = RedCub::Model::User
+Merb::Authentication.user_class = User
 
 Merb.logger.info("Compiling routes...")
 Merb::Router.prepare do

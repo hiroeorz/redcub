@@ -1,8 +1,8 @@
-class Filter < Application
+class MailFilter < Application
   include RedCub
 
   def new
-    @filter = RedCub::Model::Filter.new
+    @filter = Filter.new
 
     render :filter_edit, :layout => false
   end

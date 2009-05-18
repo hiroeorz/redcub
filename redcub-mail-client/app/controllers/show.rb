@@ -1,6 +1,5 @@
 class Show < Application
   include RedCub
-  include Model
 
   before :ensure_authenticated
 

@@ -84,6 +84,26 @@ Mailer.prototype = {
     this.deleteMail(mail_id);
   },
 
+ addBlackList: function(id) {
+    var mail_id = $("#" + id).attr("mail_id");
+    $.post("/bsfilter/black/" + mail_id, {},
+	   function() {alert("スパムを報告しました");});
+
+    if (this.filterID != -3) {
+      $("#" + id).hide("first");
+    }
+  },
+
+ addWhiteList: function(id) {
+    var mail_id = $("#" + id).attr("mail_id");
+    $.post("/bsfilter/white/" + mail_id, {},
+	   function() {alert("無実を報告しました");});
+
+    if (this.filterID == -3) {
+      $("#" + id).hide("first");
+    }
+  },
+
  returnMail: function(mailID) {
     $("#mailview").load("/edit/return_mail/" + mailID)
   },
