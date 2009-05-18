@@ -11,6 +11,8 @@ require "mogilefs"
 require "sanitize"
 require "ftools"
 
+require "simple_html_helper"
+
 require "redcub/util"
 require "redcub/config"
 

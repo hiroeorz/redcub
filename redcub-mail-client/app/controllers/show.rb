@@ -38,7 +38,13 @@ class Show < Application
     @mail.readed = true
 
     @header = @mail.header
-    @body = Sanitize.clean(@mail.body, Sanitize::Config::BASIC)
+
+    if @mail.html_mail?
+      @body = @mail.body.sanitize
+    else
+      @body = @mail.body.to_html
+    end
+
     @attached_files = @mail.attached_files
 
     render(:layout => false)
