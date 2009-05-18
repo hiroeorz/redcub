@@ -56,7 +56,7 @@ class Mail < Model
   end
   
   def spam?
-    return self.filter_id == RedCub::SPAM_BOX_NO
+    return self.filter_id == Filter::SPAM_BOX_NO
   end
   
   def spam=(other)
@@ -65,12 +65,12 @@ class Mail < Model
     end
     
     if other
-      self.filter_id = RedCub::SPAM_BOX_NO
+      self.filter_id = Filter::SPAM_BOX_NO
     else
       tmail = TMail::Mail.parse(self.data)
       
-      if self.filter_id == RedCub::SPAM_BOX_NO
-        self.filter_id = RedCub::HOME_BOX_NO
+      if self.filter_id == Filter::SPAM_BOX_NO
+        self.filter_id = Filter::HOME_BOX_NO
       end
     end
     
