@@ -65,7 +65,7 @@ Mailer.prototype = {
       $("#yet-read-bottom").css("display", "block")
     }
     
-    $("#mailList").load("/show/list_ajax/" + filterID + "/" + pageNo, 
+    $("#mail-list").load("/show/list_ajax/" + filterID + "/" + pageNo, 
                         {state : state.join(",")},
 			function(){new RightClickMenu();});
   },
@@ -135,6 +135,16 @@ Mailer.prototype = {
 	   function(data, state){
 	     alert("メールを送信しました。");
 	   })
+  },
+
+ readedAll: function(filter_id) {
+    if (filter_id == undefined) {filter_id = this.filter_id}
+
+    $.post("/mail_filter/readed_all/" + filter_id, {},
+	   function() {
+	     mailer.updateBoxList();
+	     mailer.updateMailList();
+	   });
   }
 }
 

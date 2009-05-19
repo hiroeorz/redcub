@@ -100,7 +100,7 @@ class Show < Application
       state = params[:state].split(/,/).collect {|i| i.to_i}
     end
 
-    count_per_page = 20
+    count_per_page = Merb::Config[:count_per_page]
 
     offset_count = count_per_page * (@page_no - 1)
 

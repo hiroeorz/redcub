@@ -1,47 +1,46 @@
   <div class="highslide-gallery">
     <% @mails.each do |mail| -%>
-    <div class="<%= list_class(mail) %>" id="maillist-<%= mail.id %>"
-	 mail_id="<%= mail.id %>">
-      <div class="mail-preview mail-preview-from">
-        <% if mail.mail_from.name_part.nil? -%>
-          <%= mail.mail_from.address_part %>
-        <% else -%>
-          <%= mail.mail_from.name_part %>
-        <% end -%>
-      </div>
-      
-      <a href="/show/mailview/<%= mail.id%>"
-         onclick="return hs.htmlExpand(this, {objectType: 'ajax',
-                                              cacheAjax: false,
-                                              preservedContent: false})">
-	
-	<div class="mail-preview mail-preview-body">
-          &nbsp;&gt;&gt;&nbsp;
-          <%= mail.subject %>
-          &nbsp;-&nbsp;<%= mail.body_part %><br />
-	</div>
-	
-      </a>
-      
-      <div class="highslide-heading">
-	<%= mail.subject %>
-      </div>
-      
-      <div class="mail-preview mail-preview-time">
-	<% if today?(mail.receive_date) -%>
-        <%= mail.receive_date.strftime("%H時%M分") %>
-	<% else -%>
-        <%= mail.receive_date.strftime("%m月%d日") %>
-	<% end -%>
-      </div>
-    </div>
 
-    <div style="clear:both;"></div>
+      <div class="<%= list_class(mail) %>" id="maillist-<%= mail.id %>"
+	   mail_id="<%= mail.id %>">
+        <div class="mail-preview mail-preview-from">
+          <% if mail.mail_from.name_part.nil? -%>
+            <%= mail.mail_from.address_part %>
+          <% else -%>
+            <%= mail.mail_from.name_part %>
+          <% end -%>
+        </div>
+      
+        <a href="/show/mailview/<%= mail.id%>"
+           onclick="return hs.htmlExpand(this, {objectType: 'ajax',
+                                                cacheAjax: false,
+                                                preservedContent: false})">
+	
+	  <div class="mail-preview mail-preview-body">
+            &nbsp;&gt;&gt;&nbsp;
+            <%= mail.subject %>
+            &nbsp;-&nbsp;<%= mail.body_part %><br />
+	  </div>
+	
+        </a>
+      
+        <div class="highslide-heading"> 
+	  <%= mail.subject %>
+        </div>
+      
+        <div class="mail-preview mail-preview-time"> 
+	  <% if today?(mail.receive_date) -%>
+          <%= mail.receive_date.strftime("%H時%M分") %>
+	  <% else -%>
+          <%= mail.receive_date.strftime("%m月%d日") %>
+	  <% end -%>
+        </div>
+      </div>
+
     <% end %>
 
+    <div style="clear:both;"></div>
 
-  <div style="clear:both;"></div>
-  
     <div id="page-selecter">
 
       <% if @page_count > 1 %>
@@ -56,4 +55,5 @@
       <% end %>
 
     </div>
+
   </div>

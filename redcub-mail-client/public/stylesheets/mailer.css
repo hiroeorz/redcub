@@ -12,6 +12,11 @@
   height: 500px;
 }
 
+#mail-list {
+  display: block;
+  float: none;
+}
+
 .mailbox-name {
   width: 115px;
   border: none
@@ -40,7 +45,7 @@
   display: block;
   float: left;
   width:830px;
-  height: 500px;
+  min-height: 500px;
   background-color: #fea;
   padding: 4px;
   border: none;
@@ -58,6 +63,7 @@
   background-color: #fff;
   cursor: pointer;
   line-height: 1.8;
+  color: #000;
 }
 
 .mail-preview-from {
@@ -128,10 +134,14 @@ a.mail-menu-bottom-selected {
 }
 
 .one-of-list-readed {
+  display: block;
+  float: left;
   font-weight: normal;
 }
 
 .one-of-list {
+  display: block;
+  float: left;
   font-weight: bold;
 }
 
@@ -248,13 +258,11 @@ a.mail-menu-bottom-selected {
 
 #page-selecter {
   display: block;
-  float: left;
+  float: none;
   padding: 4px;
   border: none;
   text-align: center;
   margin: 0;
-  margin-left: auto;
-  margin-right: auto;
 }
 
 #page-selecter a {

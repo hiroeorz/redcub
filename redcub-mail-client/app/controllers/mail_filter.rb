@@ -1,15 +1,22 @@
 class MailFilter < Application
   include RedCub
 
+  before :ensure_authenticated
+
   def new
     @filter = Filter.new
 
     render :filter_edit, :layout => false
   end
 
+  def edit
+    @filter = Filter.get(params[:id])
+
+    render :filter_edit, :layout => false
+  end
 
   def save
-    if params[:id].nil?
+    if params[:id].to_i.zero?
       filter = Model::Filter.new
     else
       filter = Model::Filter.first(:id => params[:id])
@@ -28,11 +35,46 @@ class MailFilter < Application
 
   def delete
     transaction do
-      filter = Model::Filter.first(:id => params[:id])
+      filter = Filter.get(params[:id])
       filter.destroy
 
-      mails = Model::Mail.all(:filter_id => params[:id])
+      mails = Mail.all(:filter_id => params[:id] )
       mails.update!(:filter_id => 0)
+    end
+
+    ""
+  end
+
+  def do_filter
+    Mail.all(:filter_id => 0).each do |mail|
+      tmail = TMail::Mail.parse(mail.data)
+      new_filter_id = Filter.filter_id(tmail, session.user.id)
+
+
+      if mail.filter_id == new_filter_id
+        next
+      end
+
+      mail.filter_id = new_filter_id
+      mail.save!
+
+      Merb.logger.debug("filter exected(new filter => #{mail.filter_id})")
+    end
+
+    Filter.update_mail_count(session.user.id)
+
+    ""
+  end
+
+  def readed_all
+    filter_id = params[:id]
+    mails = Mail.all(:filter_id => filter_id)
+
+    mails.each do |mail|
+      unless mail.readed?
+        mail.readed = true
+        mail.save
+      end
     end
 
     ""

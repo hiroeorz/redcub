@@ -39,7 +39,7 @@ class Filter < Model
     end
     
     filters.each do |f|
-      if data[f.target.to_sym] =~ Regexp.new(f.keyword)
+      if data[f.target.to_sym] =~ /#{f.keyword}/
         return f.id
       end
     end
@@ -62,8 +62,8 @@ class Filter < Model
     
     config["spam"]["spam_merkers"].each do |key, value|
       next if value.nil?
-      
-      if data[key.to_sym] =~ Regexp.new(value)
+
+      if data[key.to_sym] =~ /#{value}/
         return true
       end          
     end

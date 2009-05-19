@@ -169,16 +169,24 @@ RightClickMenu.prototype = {
       var boxListMenu = new PopupMenu();
 
       boxListMenu.add("設定", 
-		  function(target) {filter.modify(target.id)});
-    
-      boxListMenu.add("新しいフィルタを追加する", 
 		      function(target) {
-			return filter.create('mailbox-name', 
-					     '/mail_filter/new')});
+			var filter_id = $("#" + target.id).attr("filter_id");
+			return filter.edit(target.id, 
+					   '/mail_filter/edit/' + filter_id)});
     
+      boxListMenu.add("新しいフィルタを追加", 
+		      function(target) {
+			return filter.edit('mailbox-name', 
+					   '/mail_filter/new')});
+    
+      boxListMenu.add("全て既読に", 
+		      function(target) {
+			var filter_id = $("#" + target.id).attr("filter_id");
+			return mailer.readedAll(filter_id)});
+
       boxListMenu.add("削除",  
 		  function(target) {
-		    return filter.del(target.id)});
+		    return filter.del(target.id) });
 
       boxListMenu.bind(boxList[i]);
     }
@@ -187,10 +195,17 @@ RightClickMenu.prototype = {
     boxMenu.add("設定", 
 		function(target) {filter.modify(target.id)});
     
-    boxMenu.add("新しいフィルタを追加する", 
+    boxMenu.add("新しいフィルタを追加", 
 		function(target) {
-		  return filter.create('mailbox-name', '/mail_filter/new')});
+		  return filter.edit('mailbox-name', '/mail_filter/new')});
+
+    boxMenu.add("全て既読に", 
+		function(target) {return mailer.readedAll(0)});   
     
+    boxMenu.add("フィルタを実行", 
+		function(target) {
+		  return filter.doFilter(); });
+
     boxMenu.bind("mailbox-name")
 
     

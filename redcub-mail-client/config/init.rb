@@ -47,6 +47,7 @@ Merb::Config.use do |c|
     :port => 20025
   }
 
+  c[:count_per_page] = 40
   c[:bsfilter] = redcub_config["bsfilter"]
 end
  
