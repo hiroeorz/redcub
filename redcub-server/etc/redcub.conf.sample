@@ -1,0 +1,72 @@
+database:
+  adapter: mysql
+  queue_dbname: redcub_queue
+  mailbox_dbname: redcub_mailbox
+  host: vdsv04
+  port: 3306
+  username: mysql
+  password: system
+
+log_facility: mail
+
+pid_file: 
+  receiver: /tmp/redcub_receiver.pid
+  sender: /tmp/redcub_sender.pid
+  deliver: /tmp/redcub_deliver.pid
+  pop-server: /tmp/redcub_pop-server.pid
+
+smtpd:
+  port: 20025
+  line_length_limit: 1000
+  input_timeout: 20
+  error_interval: 5
+  max_size: 300
+
+popd:
+  port: 10110
+  line_length_limit: 1000
+  input_timeout: 20
+  error_interval: 5
+  max_size: 0
+
+sender:
+  interval: 1
+  max_send_count: 10
+  relay_hosts: ["192.168.4.64"]
+  domain_parent_host: 192.168.4.64
+
+deliver:
+  interval: 1
+  max_send_count: 10
+
+mogilefs:
+  domain: "redcub"
+  hosts: ["dsv04r1:7001"]
+
+myhostname: eris.komatsuelec.co.jp
+mydomains: ["komatsuelec.co.jp", "eris.komatsuelec.co.jp"]
+mynetworks: ["127.0.0.1/32", "172.16.13.0/24", "172.16.15.0/24"]
+
+spam:
+  spam_merkers:
+    subject: ^\*\*\*SPAM\*\*\*
+    "x-spam-flag": "YES"
+    "x-spam-status": "YES"
+
+bsfilter:
+  command: /usr/local/bin/bsfilter
+  homedir: /var/bsfilter
+  jtokenizer: mecab
+  tmp_dir: /tmp/redcub/bsfilter
+  spam_mark: "***SPAM***"
+  spam_score: 0.5
+
+clamav:
+  tmp_dir: /tmp/redcub/clamav
+  refresh_interval: 6
+
+# [WebClient]
+environment: develop
+base_url: /redcub
+session_name_space: redcub
+memcached_servers: ["localhost"]
