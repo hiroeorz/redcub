@@ -11,7 +11,9 @@
           <% end -%>
         </div>
       
-        <a href="/show/mailview/<%= mail.id%>"
+        <a href="<%= url(:controller => :show, 
+                         :action => :mailview, 
+                         :id => mail.id) %>"
            onclick="return hs.htmlExpand(this, {objectType: 'ajax',
                                                 cacheAjax: false,
                                                 preservedContent: false})">

@@ -65,7 +65,8 @@ Mailer.prototype = {
       $("#yet-read-bottom").css("display", "block")
     }
     
-    $("#mail-list").load("/show/list_ajax/" + filterID + "/" + pageNo, 
+    $("#mail-list").load(root_url + "/show/list_ajax/" + 
+			 filterID + "/" + pageNo, 
                         {state : state.join(",")},
 			function(){new RightClickMenu();});
   },
@@ -114,7 +115,7 @@ Mailer.prototype = {
   },
 
  updateBoxList: function() {
-    $("#mailbox-list").load("/show/boxlist", {}, 
+    $("#mailbox-list").load(root_url + "/show/boxlist", {}, 
 			    function(){new RightClickMenu()});
   },
 

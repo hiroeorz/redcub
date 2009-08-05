@@ -3,7 +3,8 @@
       <%= image_tag("download.png", :title => "取得") %>
     </a>
 
-    <a class="mail-menu-bottom" href="/edit/new"
+    <a class="mail-menu-bottom" 
+       href="<%= url(:controller => :edit, :action => :new) %>"
          onclick="return hs.htmlExpand(this, {objectType: 'ajax',
                                               cacheAjax: false,
                                               preservedContent: false})">
@@ -27,7 +28,8 @@
       <%= image_tag("notice.png", :title => "全て表示") %>
     </a>
 
-    <a class="mail-menu-bottom" href="/profile"
+    <a class="mail-menu-bottom" 
+       href="<%= url(:controller => :profile, :action => :index) %>"
          onclick="return hs.htmlExpand(this, {objectType: 'ajax',
                                               cacheAjax: false,
                                               preservedContent: false,
@@ -40,7 +42,8 @@
       プロフィール
     </div>
 
-    <a class="mail-menu-bottom" href="/profile"
+    <a class="mail-menu-bottom"
+       href="<%= url(:controller => :profile, :action => :index) %>"
          onclick="return hs.htmlExpand(this, {objectType: 'ajax',
                                               cacheAjax: false,
                                               preservedContent: false,
