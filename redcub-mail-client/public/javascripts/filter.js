@@ -20,7 +20,7 @@ Filter.prototype = {
  del: function(id) {
     var filter_id = $("#" + id).attr("filter_id");
 
-    $.post("/mail_filter/delete/" + filter_id, {},
+    $.post(root_url + "/mail_filter/delete/" + filter_id, {},
 	   function(data, state) {
 	     alert("削除しました");
 	     mailer.updateBoxList();
@@ -43,7 +43,7 @@ Filter.prototype = {
   },
 
  doFilter: function() {
-    $.post("/mail_filter/do_filter", {},
+    $.post(root_url + "/mail_filter/do_filter", {},
 	   function(data, state) {
 	     alert("フィルタを実行しました。");
 	     mailer.updateMailList();

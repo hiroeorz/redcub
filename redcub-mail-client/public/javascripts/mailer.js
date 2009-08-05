@@ -73,7 +73,7 @@ Mailer.prototype = {
  deleteMail: function(mailID) {
     var divObj = $("#maillist-" + mailID)
     
-    $.post("/show/delete/" + mailID, {}, function(data, state) {
+    $.post(root_url + "/show/delete/" + mailID, {}, function(data, state) {
 	divObj.hide("first");
       }
       );
@@ -86,7 +86,7 @@ Mailer.prototype = {
 
  addBlackList: function(id) {
     var mail_id = $("#" + id).attr("mail_id");
-    $.post("/bsfilter/black/" + mail_id, {},
+    $.post(root_url + "/bsfilter/black/" + mail_id, {},
 	   function() {alert("スパムを報告しました");});
 
     if (this.filterID != -3) {
@@ -96,7 +96,7 @@ Mailer.prototype = {
 
  addWhiteList: function(id) {
     var mail_id = $("#" + id).attr("mail_id");
-    $.post("/bsfilter/white/" + mail_id, {},
+    $.post(root_url + "/bsfilter/white/" + mail_id, {},
 	   function() {alert("無実を報告しました");});
 
     if (this.filterID == -3) {
@@ -105,7 +105,7 @@ Mailer.prototype = {
   },
 
  returnMail: function(mailID) {
-    $("#mailview").load("/edit/return_mail/" + mailID)
+    $("#mailview").load(root_url + "/edit/return_mail/" + mailID)
   },
 
  returnMailByID: function(id) {
@@ -121,7 +121,7 @@ Mailer.prototype = {
  clearTrash: function() {
     var filterID = this.filterID;
     
-    $.post("/show/cleartrash", {}, 
+    $.post(root_url + "/show/cleartrash", {}, 
 	   function(data, state) {
 	     if (filterID == -1) {mailer.updateMailList();}
 	     new RightClickMenu();
@@ -131,7 +131,7 @@ Mailer.prototype = {
  sendmail: function(id) {
     var params = $("#" + id).serialize();
 
-    $.post("/edit/sendmail", params, 
+    $.post(root_url + "/edit/sendmail", params, 
 	   function(data, state){
 	     alert("メールを送信しました。");
 	   })
@@ -140,7 +140,7 @@ Mailer.prototype = {
  readedAll: function(filter_id) {
     if (filter_id == undefined) {filter_id = this.filter_id}
 
-    $.post("/mail_filter/readed_all/" + filter_id, {},
+    $.post(root_url + "/mail_filter/readed_all/" + filter_id, {},
 	   function() {
 	     mailer.updateBoxList();
 	     mailer.updateMailList();

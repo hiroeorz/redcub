@@ -33,7 +33,7 @@ Merb::Config.use do |c|
   #                                #
   ##################################
 
-  c[:session_store] = 'datamapper'  # can also be 'memory', 'memcache', 'container', 'datamapper
+  c[:session_store] = 'memcache'  # can also be 'memory', 'memcache', 'container', 'datamapper
   
   # cookie session store configuration
   c[:session_secret_key]  = '57f2e643d2296ed0bd3c7cdb84fbe8446caa4eb5'  # required for cookie session store
@@ -47,6 +47,8 @@ Merb::Config.use do |c|
     :port => 20025
   }
 
+  c[:path_prefix] = "/redcub"
+
   c[:count_per_page] = 40
   c[:bsfilter] = redcub_config["bsfilter"]
 end
@@ -58,5 +60,9 @@ end
  
 Merb::BootLoader.after_app_loads do
   # This will get executed after your app's classes have been loaded.
+
+  require "memcache"
+  Merb::MemcacheSession.store = MemCache.new("127.0.0.1:11211",
+                                             :namespace => "redcub-mail-client")
 end
 

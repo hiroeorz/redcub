@@ -27,7 +27,7 @@ test:
  
 production:
   <<:       *defaults
-  database: production.db
+  # database: production.db
  
   # repositories:
   #   repo1:

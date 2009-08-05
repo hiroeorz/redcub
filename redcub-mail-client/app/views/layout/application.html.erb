@@ -3,36 +3,38 @@
   <head>
     <title>RedCub Mail</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" href="/stylesheets/master.css" 
+    <link rel="stylesheet" href="/redcub/stylesheets/master.css" 
 	  type="text/css" media="screen" charset="utf-8" />
-    <link rel="stylesheet" href="/stylesheets/highslide.css" 
+    <link rel="stylesheet" href="/redcub/stylesheets/highslide.css" 
 	  type="text/css" media="screen" charset="utf-8" />
-    <link rel="stylesheet" href="/stylesheets/mailer.css" 
+    <link rel="stylesheet" href="/redcub/stylesheets/mailer.css" 
 	  type="text/css" media="screen" charset="utf-8" />
 
     <script type="text/javascript" 
-	    src="/javascripts/jquery.js"></script>
+	    src="/redcub/javascripts/jquery.js"></script>
 
     <script type="text/javascript" 
-	    src="/javascripts/highslide/highslide-full.js"></script>
+	    src="/redcub/javascripts/highslide/highslide-full.js"></script>
 
     <script type="text/javascript" 
-	    src="/javascripts/util.js"></script>
+	    src="/redcub/javascripts/util.js"></script>
 
     <script type="text/javascript" 
-	    src="/javascripts/popupmenu.js"></script>
+	    src="/redcub/javascripts/popupmenu.js"></script>
 
     <script type="text/javascript" 
-	    src="/javascripts/mailer.js"></script>
+	    src="/redcub/javascripts/mailer.js"></script>
 
     <script type="text/javascript" 
-	    src="/javascripts/profile.js"></script>
+	    src="/redcub/javascripts/profile.js"></script>
 
     <script type="text/javascript" 
-	    src="/javascripts/filter.js"></script>
+	    src="/redcub/javascripts/filter.js"></script>
 
     <script type="text/javascript">
-      hs.graphicsDir = "/images/highslide/";
+      var root_url = "<%= Merb::Config[:path_prefix] %>";
+
+      hs.graphicsDir = "/redcub/images/highslide/";
       hs.align = "center";
       hs.transitions = ["expand", "crossfade"];
       hs.outlineType = "rounded-white"; /* glossy-dark rounded-white */
