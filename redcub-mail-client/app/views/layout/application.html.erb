@@ -68,8 +68,7 @@
   </head>
   <body>
     <div id="logout">
-      <a href="<%= url(:controller => :logout, 
-                       :action => :index)%>">ログアウト</a>
+      <a href="<%= Merb::Config[:path_prefix] %>/logout">ログアウト</a>
     </div>
 
     <div style="clear:both"></div>
