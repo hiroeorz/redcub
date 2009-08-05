@@ -28,6 +28,16 @@ begin
       user.nil? ? user : user.id
     end
   end
+
+  class MerbAuthSlicePassword::Sessions
+    def redirect_after_login
+      redirect Merb::Config[:path_prefix] / session[:return_to].first
+    end
+
+    def redirect_after_logout
+      redirect Merb::Config[:path_prefix]
+    end
+  end
   
 rescue
   Merb.logger.error <<-TEXT
