@@ -17,9 +17,9 @@ class MailFilter < Application
 
   def save
     if params[:id].to_i.zero?
-      filter = Model::Filter.new
+      filter = Filter.new
     else
-      filter = Model::Filter.first(:id => params[:id])
+      filter = Filter.first(:id => params[:id])
     end
     
     filter_data = params["filter"]
@@ -46,20 +46,19 @@ class MailFilter < Application
   end
 
   def do_filter
-    Mail.all(:filter_id => 0).each do |mail|
+    mails = Mail.all(:filter_id => 0)
+
+    mails.each do |mail|
       tmail = TMail::Mail.parse(mail.data)
       new_filter_id = Filter.filter_id(tmail, session.user.id)
 
 
-      if mail.filter_id == new_filter_id
-        next
+      unless mail.filter_id == new_filter_id
+        mail.filter_id = new_filter_id
+        mail.save
       end
-
-      mail.filter_id = new_filter_id
-      mail.save!
-
-      Merb.logger.debug("filter exected(new filter => #{mail.filter_id})")
     end
+
 
     Filter.update_mail_count(session.user.id)
 
