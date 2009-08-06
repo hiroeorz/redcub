@@ -51,6 +51,8 @@ class MailQueue < Model
       
     rescue MogileFS::Backend::UnregDomainError
       setup_mogilefs_queue
+    rescue MogileFS::Backend::UnknownKeyError
+      return nil
     end
   end
   

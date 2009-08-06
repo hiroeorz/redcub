@@ -19,6 +19,7 @@ module RedCub
       @send_queue = Sendqueue.new
 
       @clamav_scanner = nil
+      @spam_filter = BSFilter.new
 
       super(sock, domain)
     end
@@ -62,6 +63,10 @@ module RedCub
               Syslog.debug("#{tmail.message_id.gsub(/\%/, '%%')}: virus scanner not available")
           end
           
+          if @config["bsfilter"]
+            result, tmail = @spam_filter.spam?(tmail)
+          end
+
           if @mydomains.include?(domain) and User.exist?(name)
             mail_id = save_queue(tmail, rcpt_to, :local)
             Syslog.info("saved to local mail queue id=#{mail_id}")

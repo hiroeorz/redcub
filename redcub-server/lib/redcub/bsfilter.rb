@@ -39,7 +39,7 @@ module RedCub
           tmail["x-spam-status"] = "NO"
         end
       rescue Exception => e
-        Syslog.err("error in bsfiltering! #{e.class} #{e.message}")
+        Syslog.err("error in bsfiltering! #{e.class} #{e.message.gsub(/\%/, '\\%')}")
         return false, tmail
       ensure
         File.unlink(path) if File.exist?(path)

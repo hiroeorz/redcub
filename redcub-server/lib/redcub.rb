@@ -45,6 +45,7 @@ require "redcub/sender"
 require "redcub/deliver"
 require "redcub/pop-server"
 require "redcub/clamav-scanner"
+require "redcub/bsfilter"
 
 require "redcub/model/model"
 require "redcub/model/queue"

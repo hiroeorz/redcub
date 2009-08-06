@@ -9,6 +9,7 @@ redcublib_DATA	= config.rb \
                   sender.rb \
                   util.rb \
                   daemon.rb \
-                  clamav-scanner.rb
+                  clamav-scanner.rb \
+                  bsfilter.rb
 
 SUBDIRS		= model
